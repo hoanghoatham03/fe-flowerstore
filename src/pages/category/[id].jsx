@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react"; 
-import ProductList from "@/components/custom/ProductList"; 
+import ProductList from "@/components/ProductList"; 
 
 const CategoryDetailScreen = () => {
   const router = useRouter();
@@ -11,7 +11,7 @@ const CategoryDetailScreen = () => {
 
   useEffect(() => {
     if (id) {
-      fetch(`/api/categories/${id}`)
+      fetch(`/api/category/${id}`)
         .then((res) => res.json())
         .then((data) => {
           setCategoryData(data);
