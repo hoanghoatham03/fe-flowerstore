@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { login as apiLogin } from "@/api/auth";
+import { authLogin as apiLogin } from "@/api/auth";
 
 export const login = createAsyncThunk("auth/login", async (formData, { rejectWithValue }) => {
   try {
