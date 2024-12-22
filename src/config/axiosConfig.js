@@ -1,13 +1,11 @@
 import axios from "axios";
-import { BASE_URL } from "../utils/appConstant";
 import { WHITE_LIST_ROUTES } from "../utils/appConstant";
 
 export const axiosInstance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: 'https://flowerstoreapi-production.up.railway.app/api',
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
-    // Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
 });
 

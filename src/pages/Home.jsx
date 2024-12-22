@@ -1,10 +1,14 @@
+import React from "react";
+import ProductList from "../components/ProductList"
+import Banner from "../components/Banner";
+const HomePage = () => {
 
-const Home = () => {
   return (
     <div>
-      <h1>Home Page</h1>
+      <Banner></Banner>
+      <ProductList className="m-5"></ProductList>
     </div>
   );
 };
 
-export default Home;
+export default HomePage;
