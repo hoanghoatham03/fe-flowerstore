@@ -6,9 +6,9 @@ import Home from "./pages/Home";
 import Products from "./pages/Products";
 import Layout from "./pages/Layout";
 import CategoryDetailScreen from "./pages/CategoryDetailScreen";
+import ProductDetailScreen from "./pages/ProductDetailScreen";
 import "antd/dist/reset.css";
 
-// Tạo QueryClient để quản lý trạng thái React Query
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -29,8 +29,12 @@ const router = createBrowserRouter([
         element: <Products />,
       },
       {
-        path: "/category/:id", 
+        path: "/category/:id",
         element: <CategoryDetailScreen />,
+      },
+      {
+        path: "/product/:id",
+        element: <ProductDetailScreen />,
       },
     ],
   },

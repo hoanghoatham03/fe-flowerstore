@@ -1,5 +1,6 @@
 import React from 'react';
 const Footer = () => {
+  console.log('src/assets/logo-shop.png')
   return (
     <footer className="w-full py-14">
     <div className="text-center">
