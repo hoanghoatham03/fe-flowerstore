@@ -3,12 +3,11 @@ import "./index.css";
 import App from "./App.jsx";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { persistor } from "./store/index.js";
-import store from "./store/index.js";
+import store, { persistor } from "./store/store.js";
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <PersistGate persistor={persistor}>
+    <PersistGate persistor={persistor} loading={<div>Loading...</div>}>
       <App />
     </PersistGate>
   </Provider>

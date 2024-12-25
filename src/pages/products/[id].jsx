@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 const ProductDetailScreen = () => {
-  const { id } = useParams(); // Lấy productId từ URL
+  const { id } = useParams(); 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [productData, setProductData] = useState(null);
 
   useEffect(() => {
     if (id) {
-      fetch(`/api/product/${id}`) // Gọi API lấy thông tin sản phẩm
+      fetch(`/api/product/${id}`) 
         .then((res) => res.json())
         .then((data) => {
           setProductData(data);

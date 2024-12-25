@@ -7,12 +7,12 @@ const CategoryDetailScreen = () => {
   const { id } = useParams();
   const [categoryName, setCategoryName] = useState("");
   const [loading, setLoading] = useState(true);
-
   const loadCategoryName = async () => {
     setLoading(true);
     try {
-      const response = await getProductByCategoryId(parseInt(id, 10));
+      const response = await getProductByCategoryId(parseInt(id, 10),1,10);
       setCategoryName(response.data.name);
+      console.log(response)
     } catch (error) {
       console.error("Error fetching category name:", error);
     } finally {
@@ -28,11 +28,7 @@ const CategoryDetailScreen = () => {
 
   return (
     <div className="p-4">
-      {loading ? (
-        <p className="text-center text-gray-500">Đang tải danh mục...</p>
-      ) : (
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">{categoryName}</h1>
-      )}
+        <h1 className="text-2xl font-bold text-black-800 mb-4">{categoryName}</h1>
       <ProductList categoryId={parseInt(id, 10)} />
     </div>
   );

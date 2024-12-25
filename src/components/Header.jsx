@@ -1,17 +1,21 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchCart } from "../store/reducers/cartReducer";
+import { logout } from "../store/reducers/authReducer";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogPanel,
+  Popover,
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
-  Popover,
   PopoverButton,
   PopoverGroup,
   PopoverPanel,
 } from "@headlessui/react";
 import {
+  ShoppingCartIcon,
   DevicePhoneMobileIcon,
   Bars3Icon,
   XMarkIcon,
@@ -53,6 +57,33 @@ const callsToAction = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart); 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    dispatch(logout());
+    navigate("/");
+    window.location.reload();
+  };
+  const handleCartClick = () => {
+    if (user) {
+      dispatch(fetchCart(user.id));
+      navigate("/cart");  
+    } else {
+      navigate("/login"); 
+    }
+  };
+  const handleProfileClick = () => {
+    navigate(`/profile`);  
+  };
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchCart(user.id));  
+    }
+  }, [user, dispatch]);
 
   return (
     <header className="bg-white sticky top-0 z-50 shadow-md">
@@ -77,6 +108,7 @@ export default function Header() {
           </button>
         </div>
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
+
           <Popover className="relative group">
             <PopoverButton className="flex items-center gap-x-1 font-sans text-Color group-hover:text-red-500">
               Lan Hồ Điệp
@@ -115,21 +147,6 @@ export default function Header() {
                   </div>
                 ))}
               </div>
-              <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-                {callsToAction.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="flex items-center justify-center gap-x-2.5 p-3 font-sans text-Color hover:text-red-500"
-                  >
-                    <item.icon
-                      aria-hidden="true"
-                      className="h-5 w-5 text-Color"
-                    />
-                    {item.name}
-                  </a>
-                ))}
-              </div>
             </PopoverPanel>
           </Popover>
           <Link
@@ -151,13 +168,52 @@ export default function Header() {
             Hoa Khai Trương
           </Link>
         </PopoverGroup>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link
-            to="/login"
-            className="font-sans text-Color hover:text-red-500"
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center gap-8">
+        {user && (
+          <button
+            onClick={handleCartClick}
+            className="relative group flex items-center text-Color hover:text-red-500"
           >
-            Đăng Nhập
-          </Link>
+            <ShoppingCartIcon className="h-6 w-6" />
+            {cart && cart.cartItems && cart.cartItems.length > 0 && (
+              <span className="fixed top-6 right-20 inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-white bg-red-500 rounded-full">
+                {cart.cartItems.length}
+              </span>
+            )}
+          </button>
+        )}
+
+          {user ? (
+            <Popover className="relative">
+              <PopoverButton className="flex items-center gap-x-2">
+                <img
+                  src={user.avatar || "/assets/default-avatar.jpg"}
+                  alt="Avatar"
+                  className="h-8 w-8 rounded-full"
+                />
+              </PopoverButton>
+              <PopoverPanel className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg bg-white ring-1 ring-gray-900/5">
+                <div className="p-4">
+                  <button onClick={handleProfileClick} className="block py-2 text-Color hover:text-red-500">
+                    Profile
+                  </button>
+                  <Link to="/orders" className="block py-2 text-Color hover:text-red-500">
+                    Đơn hàng
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left py-2 text-Color hover:text-red-500"
+                  >
+                    Đăng xuất
+                  </button>
+                </div>
+              </PopoverPanel>
+            </Popover>
+          ) : (
+            <Link to="/login" className="font-sans text-Color hover:text-red-500">
+              Đăng Nhập
+            </Link>
+          )}
         </div>
       </nav>
       <Dialog

@@ -4,15 +4,30 @@ import { authLogin as apiLogin } from "@/api/auth";
 export const login = createAsyncThunk("auth/login", async (formData, { rejectWithValue }) => {
   try {
     const data = await apiLogin(formData.email, formData.password);
-    return data;
+    return {
+      user: data.data.user,
+      token: data.data.ACCESS_TOKEN,
+    };
   } catch (error) {
-    return rejectWithValue(error.response?.data || error.message);
+    return rejectWithValue(error.response?.data || error.message || "Đăng nhập thất bại!");
   }
-})
+});
+
+const initialState = {
+  user: null,
+  loading: "idle",
+  token: null, 
+  error: null,
+};
+
 const authSlice = createSlice({
   name: "auth",
-  initialState: { user: null, loading: "idle", error: null },
-  reducers: {},
+  initialState,
+  reducers: {
+    logout: () => {
+      return initialState;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -21,7 +36,8 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = "idle";
-        state.user = action.payload;
+        state.user = action.payload.user;  
+        state.token = action.payload.token; 
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = "idle";
@@ -29,5 +45,7 @@ const authSlice = createSlice({
       });
   },
 });
+
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

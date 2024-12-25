@@ -6,5 +6,33 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
+}
+.custom-swiper .swiper-pagination {
+  margin-top: 20px;
+}
+
+.custom-swiper .swiper-pagination-bullet {
+  width: 20px;
+  height: 20px;
+  background-color: #999;
+  opacity: 1;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.custom-swiper .swiper-pagination-bullet-active {
+  background-color: #ff6347; 
+}
+
+.custom-swiper .swiper-pagination-bullet.swiper-pagination-bullet-dynamic {
+  margin: 0 5px; 
+}
+
+.custom-swiper .swiper-pagination-bullet:hover {
+  background-color: #e91e63; 
+}
+
+.arr-custom .swiper-navigation{
+  size:44px;
+  background-color: #ff6347;
 }

@@ -8,7 +8,8 @@ import Layout from "./pages/Layout";
 import CategoryDetailScreen from "./pages/CategoryDetailScreen";
 import ProductDetailScreen from "./pages/ProductDetailScreen";
 import "antd/dist/reset.css";
-
+import Cart from "./pages/Cart";
+import Profile from "./pages/Profile";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -36,6 +37,15 @@ const router = createBrowserRouter([
         path: "/product/:id",
         element: <ProductDetailScreen />,
       },
+      {
+        path: "/cart", 
+        element: <Cart />,
+      },
+      {
+        path: "/profile", 
+        element: <Profile />,
+      },
+      
     ],
   },
 ]);

@@ -23,8 +23,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const result = await dispatch(login(formData)).unwrap();
-      console.log("Login successful:", result);
+      await dispatch(login(formData)).unwrap();
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
