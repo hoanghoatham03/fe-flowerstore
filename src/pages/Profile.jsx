@@ -215,7 +215,7 @@ const ProfilePage = () => {
                   onClick={handleEditProfile}
                   className="mt-4 bg-indigo-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300"
                 >
-                  Edit Profile
+                  Chỉnh sửa thông tin
                 </button>
               </div>
 
@@ -227,7 +227,7 @@ const ProfilePage = () => {
                     </h2>
                     <div className="space-y-4">
                       <div>
-                        <label className="text-gray-700 dark:text-gray-300">First Name</label>
+                        <label className="text-gray-700 dark:text-gray-300">Họ</label>
                         <input
                           type="text"
                           value={formData.firstName}
@@ -236,7 +236,7 @@ const ProfilePage = () => {
                         />
                       </div>
                       <div>
-                        <label className="text-gray-700 dark:text-gray-300">Last Name</label>
+                        <label className="text-gray-700 dark:text-gray-300">Tên</label>
                         <input
                           type="text"
                           value={formData.lastName}
@@ -254,7 +254,7 @@ const ProfilePage = () => {
                         />
                       </div>
                       <div>
-                        <label className="text-gray-700 dark:text-gray-300">Mobile Number</label>
+                        <label className="text-gray-700 dark:text-gray-300">Số điện thoại</label>
                         <input
                           type="text"
                           value={formData.mobileNumber}
@@ -268,14 +268,14 @@ const ProfilePage = () => {
                         type="submit"
                         className="bg-indigo-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300"
                       >
-                        Save Changes
+                        Lưu thay đổi
                       </button>
                       <button
                         type="button"
                         onClick={handleCancelEdit}
                         className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors duration-300"
                       >
-                        Cancel
+                        Hủy 
                       </button>
                     </div>
                   </form>
@@ -325,13 +325,13 @@ const ProfilePage = () => {
                                     onClick={() => handleEditAddress(address)}
                                     className="text-indigo-800 hover:text-blue-900"
                                 >
-                                    Edit
+                                    Sửa 
                                 </button>
                                 <button
                                     onClick={() => handleRemoveClick(address)}
                                     className="text-red-600 hover:text-red-800"
                                 >
-                                    Remove
+                                    Xóa 
                                 </button>
                                 </div>
                             </li>
@@ -346,7 +346,7 @@ const ProfilePage = () => {
                         onClick={handleCreateAddress}
                         className="mt-4 bg-indigo-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300"
                       >
-                        Create Address
+                        Tạo địa chỉ mới
                       </button>
                     )}
                   </>
@@ -362,7 +362,7 @@ const ProfilePage = () => {
         <Modal
           onConfirm={handleConfirmRemove}
           onCancel={handleCancelRemove}
-          message="Are you sure you want to delete this address? This action cannot be undone."
+          message="Bạn có chắc chắn muốn xóa địa chỉ này ?"
         />
       )}
       {isEditingAddress && (
@@ -374,7 +374,7 @@ const ProfilePage = () => {
               </h2>
               <div className="space-y-4">
                 <div>
-                  <label className="text-gray-700 dark:text-gray-300">Street</label>
+                  <label className="text-gray-700 dark:text-gray-300">Đường</label>
                   <input
                     type="text"
                     value={addressFormData.street}
@@ -383,7 +383,7 @@ const ProfilePage = () => {
                   />
                 </div>
                 <div>
-                  <label className="text-gray-700 dark:text-gray-300">District</label>
+                  <label className="text-gray-700 dark:text-gray-300">Quận/Huyện</label>
                   <input
                     type="text"
                     value={addressFormData.district}
@@ -392,7 +392,7 @@ const ProfilePage = () => {
                   />
                 </div>
                 <div>
-                  <label className="text-gray-700 dark:text-gray-300">City</label>
+                  <label className="text-gray-700 dark:text-gray-300">Thành phố</label>
                   <input
                     type="text"
                     value={addressFormData.city}
@@ -406,14 +406,14 @@ const ProfilePage = () => {
                   type="submit"
                   className="bg-indigo-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300"
                 >
-                  Save
+                  Lưu thay đổi
                 </button>
                 <button
                   type="button"
                   onClick={handleCancelAddressEdit}
                   className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors duration-300"
                 >
-                  Cancel
+                  Hủy
                 </button>
               </div>
             </form>

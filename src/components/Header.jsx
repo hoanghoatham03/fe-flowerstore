@@ -124,25 +124,22 @@ export default function Header() {
                     key={item.name}
                     className="group relative flex items-center gap-x-6 rounded-lg p-4 hover:bg-gray-50"
                   >
-                    {item.image && (
-                      <div className="flex items-center justify-center w-12 h-12 overflow-hidden rounded-lg bg-gray-50 group-hover:bg-white">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-                    )}
+                    <div className="flex items-center justify-center w-12 h-12 overflow-hidden rounded-lg bg-gray-50 group-hover:bg-white">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
                     <div className="flex-auto">
                       <Link
                         to={item.href}
+                        onClick={() => setMobileMenuOpen(false)} // Đóng bảng xổ xuống
                         className="block font-semibold text-Color hover:text-red-500"
                       >
                         {item.name}
                       </Link>
-                      <p className="mt-1 italic text-Color">
-                        {item.description}
-                      </p>
+                      <p className="mt-1 italic text-Color">{item.description}</p>
                     </div>
                   </div>
                 ))}
@@ -223,75 +220,100 @@ export default function Header() {
       >
         <div className="fixed inset-0 z-10" />
         <DialogPanel className="fixed inset-y-0 pt-12 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-          <div className="flex items-center justify-between">
-            <Link to="/" className="-m-1.5 p-1.5">
-              <img
-                alt="Logo"
-                src="/src/assets/logo-shop.png"
-                className="h-8 w-auto"
-              />
+  <div className="flex items-center justify-between">
+    <Link to="/" className="-m-1.5 p-1.5">
+      <img
+        alt="Logo"
+        src="/src/assets/logo-shop.png"
+        className="h-8 w-auto"
+      />
+    </Link>
+    <button
+      type="button"
+      onClick={() => setMobileMenuOpen(false)}
+      className="-m-2.5 rounded-md p-2.5 text-Color"
+    >
+      <XMarkIcon aria-hidden="true" className="h-6 w-6" />
+    </button>
+  </div>
+  <div className="mt-6 flow-root">
+    <div className="-my-6 divide-y divide-gray-500/10">
+      <div className="space-y-2 py-6">
+        <Disclosure as="div">
+          <DisclosureButton className="group flex w-full items-center justify-between py-2 pl-3 pr-3.5 text-base text-Color hover:bg-gray-50">
+            Lan Hồ Điệp
+            <ChevronDownIcon
+              aria-hidden="true"
+              className="h-5 w-5 group-data-[open]:rotate-180"
+            />
+          </DisclosureButton>
+          <DisclosurePanel className="mt-2 space-y-2">
+            {products.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className="block py-2 pl-6 pr-3 text-Color hover:text-red-500"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </DisclosurePanel>
+        </Disclosure>
+        <Link
+          to="/category/4"
+          className="block px-3 py-2 text-base text-Color hover:text-red-500"
+        >
+          Hoa Sinh Nhật
+        </Link>
+        <Link
+          to="/category/5"
+          className="block px-3 py-2 text-base text-Color hover:text-red-500"
+        >
+          Hoa Giá Rẻ
+        </Link>
+        <Link
+          to="/category/9"
+          className="block px-3 py-2 text-base text-Color hover:text-red-500"
+        >
+          Hoa Khai Trương
+        </Link>
+      </div>
+
+      <div className="py-6">
+        {user ? (
+          <>
+            <button
+              onClick={handleProfileClick}
+              className="block w-full text-left px-3 py-2.5 text-base text-Color hover:text-red-500"
+            >
+              Profile
+            </button>
+            <Link
+              to="/orders"
+              className="block w-full px-3 py-2.5 text-base text-Color hover:text-red-500"
+            >
+              Đơn hàng
             </Link>
             <button
-              type="button"
-              onClick={() => setMobileMenuOpen(false)}
-              className="-m-2.5 rounded-md p-2.5 text-Color"
+              onClick={handleLogout}
+              className="block w-full text-left px-3 py-2.5 text-base text-Color hover:text-red-500"
             >
-              <XMarkIcon aria-hidden="true" className="h-6 w-6" />
+              Đăng xuất
             </button>
-          </div>
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
-                <Disclosure as="div">
-                  <DisclosureButton className="group flex w-full items-center justify-between py-2 pl-3 pr-3.5 text-base text-Color hover:bg-gray-50">
-                    Lan Hồ Điệp
-                    <ChevronDownIcon
-                      aria-hidden="true"
-                      className="h-5 w-5 group-data-[open]:rotate-180"
-                    />
-                  </DisclosureButton>
-                  <DisclosurePanel className="mt-2 space-y-2">
-                    {products.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className="block py-2 pl-6 pr-3 text-Color hover:text-red-500"
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </DisclosurePanel>
-                </Disclosure>
-                <Link
-                  to="/category/4"
-                  className="block px-3 py-2 text-base text-Color hover:text-red-500"
-                >
-                  Hoa Sinh Nhật
-                </Link>
-                <Link
-                  to="/category/5"
-                  className="block px-3 py-2 text-base text-Color hover:text-red-500"
-                >
-                  Hoa Giá Rẻ
-                </Link>
-                <Link
-                  to="/category/9"
-                  className="block px-3 py-2 text-base text-Color hover:text-red-500"
-                >
-                  Hoa Khai Trương
-                </Link>
-              </div>
-              <div className="py-6">
-                <Link
-                  to="/login"
-                  className="block px-3 py-2.5 text-base text-Color hover:text-red-500"
-                >
-                  Đăng Nhập
-                </Link>
-              </div>
-            </div>
-          </div>
-        </DialogPanel>
+          </>
+        ) : (
+          <Link
+            to="/login"
+            className="block px-3 py-2.5 text-base text-Color hover:text-red-500"
+          >
+            Đăng Nhập
+          </Link>
+        )}
+      </div>
+    </div>
+  </div>
+</DialogPanel>
+
       </Dialog>
     </header>
   );

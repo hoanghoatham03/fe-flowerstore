@@ -4,7 +4,7 @@ import { getProductByCategoryId } from "@/api/product";
 import { Link } from "react-router-dom";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation,Pagination } from "swiper/modules";
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Spinner from "./Spinner";
@@ -20,7 +20,7 @@ const ProductList = ({ categoryId }) => {
 
  
   return (
-    <div className="my-8">
+    <div className="my-3">
       {isLoading ? (
         <Spinner />
       ) : (
@@ -30,7 +30,11 @@ const ProductList = ({ categoryId }) => {
           slidesPerView={1} 
           navigation={true}
           loop={true} 
-          modules={[Navigation]}
+          pagination={{
+                clickable: true,
+                dynamicBullets: true,
+              }}
+          modules={[Navigation, Pagination]}
           breakpoints={{
             320: {
               slidesPerView: 1, 
@@ -46,16 +50,16 @@ const ProductList = ({ categoryId }) => {
             },
           }
         }
-        className="arr-custom"
+        className="arr-custom custom-swiper"
         >
           {products.map((product) => (
             <SwiperSlide key={product.productId}
-            className="relative w-full h-auto rounded-md p-4 shadow hover:bg-neutral-200 hover:shadow-xl">
+            className="relative w-full h-auto rounded-md p-8 shadow hover:bg-neutral-200 hover:shadow-xl">
               <Link
                 to={`/product/${product.productId}`}
               >
                 {product.discount > 0 && (
-                  <span className="absolute m-2 text-sm bg-red-500 text-white px-2 py-1 rounded-full">
+                  <span className="absolute m-2 text-sm bg-red-500 text-white px-2 py-2 rounded-full text-center font-bold">
                     {product.discount}%<br />GIẢM
                   </span>
                 )}
