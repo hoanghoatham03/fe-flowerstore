@@ -194,7 +194,7 @@ export default function Header() {
               <PopoverPanel className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg bg-white ring-1 ring-gray-900/5">
                 <div className="p-4">
                   <button onClick={handleProfileClick} className="block py-2 text-Color hover:text-red-500">
-                    Profile
+                    Trang cá nhân
                   </button>
                   <Link to="/orders" className="block py-2 text-Color hover:text-red-500">
                     Đơn hàng

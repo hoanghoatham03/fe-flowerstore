@@ -12,7 +12,7 @@ const ProductList = ({ categoryId }) => {
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["products", categoryId],
     queryFn: () =>
-      getProductByCategoryId(categoryId, 1,6).then((res) => res.data),
+      getProductByCategoryId(categoryId, 1,6).then((res) => res.data.products),
     staleTime: 300000,
     cacheTime: 600000,
   });
@@ -72,11 +72,11 @@ const ProductList = ({ categoryId }) => {
 
                 <div className="flex justify-center items-center mt-2">
                   <p className="text-red-500 text-sm font-bold">
-                    {product.price - product.price * (product.discount / 100)} VND
+                    {product.price.toLocaleString()} VND
                   </p>
                   {product.discount > 0 && (
                     <p className="text-gray-500 text-sm line-through ml-2">
-                      {product.price} VND
+                      {product.price.toLocaleString()} VND
                     </p>
                   )}
                 </div>

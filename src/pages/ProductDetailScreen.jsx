@@ -127,11 +127,11 @@ const ProductDetailScreen = () => {
           </h1>
           <div className="flex items-center border-y-2 border-gray-300 p-3 gap-4 mb-6 text-2xl list-none">
             <li className="text-red-500">
-              {product.price - product.price * (product.discount / 100)} VND
+              {(product.price - product.price * (product.discount / 100)).toLocaleString()} VND
             </li>
             {product.discount > 0 && (
               <li className="text-gray-500 text-xl line-through">
-                {product.price} VND
+                {product.price.toLocaleString()} VND
               </li>
             )}
             {product.discount > 0 && (
@@ -168,7 +168,7 @@ const ProductDetailScreen = () => {
               1900 633 045
             </span>
           </p>
-          <div>
+          <div className="flex flex-row items-center gap-2">
             <input
               type="number"
               name="quantity"
@@ -201,7 +201,7 @@ const ProductDetailScreen = () => {
       </div>
 
       <div className="mt-10">
-        <h2 className="text-2xl font-bold mb-4">S���n Phẩm Liên Quan</h2>
+        <h2 className="text-2xl font-bold mb-4">Sản phẩm liên quan</h2>
         <div>
           <ProductList categoryId={product.categoryId} />
         </div>
