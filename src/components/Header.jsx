@@ -88,7 +88,7 @@ export default function Header() {
   const cartItemCount = cart?.cartItems?.length || 0;
 
   return (
-    <header className="bg-white sticky top-0 z-50 shadow-md">
+    <header className="bg-[#c3e6cb] sticky top-0 z-50 shadow-md">
       <nav className="mx-auto flex items-center justify-between p-6 lg:px-8">
         <div className="flex lg:flex-1">
           <Link to="/" className="-m-1.5 p-1.5">
@@ -112,22 +112,22 @@ export default function Header() {
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
 
           <Popover className="relative group">
-            <PopoverButton className="flex items-center gap-x-1 font-sans text-Color group-hover:text-red-500">
+            <PopoverButton className="flex items-center gap-x-1 font-sans text-Color group-hover:text-[#d8b8f6]">
               Lan Hồ Điệp
               <ChevronDownIcon
                 aria-hidden="true"
-                className="h-5 w-5 text-Color group-hover:text-red-500"
+                className="h-5 w-5"
               />
             </PopoverButton>
-            <PopoverPanel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+            <PopoverPanel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-[#c3e6cb] shadow-lg ring-1 ring-gray-900/5">
               <div className="p-4">
                 {products.map((item) => (
                   <div
                     key={item.name}
-                    className="group relative flex items-center gap-x-6 rounded-lg p-4 hover:bg-gray-50"
+                    className="group relative flex items-center gap-x-6 rounded-lg p-4 hover:bg-[#d8b8f6]"
                   >
                     {item.image && (
-                      <div className="flex items-center justify-center w-12 h-12 overflow-hidden rounded-lg bg-gray-50 group-hover:bg-white">
+                      <div className="flex items-center justify-center w-12 h-12 overflow-hidden rounded-lg">
                         <img
                           src={item.image}
                           alt={item.name}
@@ -138,11 +138,11 @@ export default function Header() {
                     <div className="flex-auto">
                       <Link
                         to={item.href}
-                        className="block font-semibold text-Color hover:text-red-500"
+                        className="block font-semibold text-Color "
                       >
                         {item.name}
                       </Link>
-                      <p className="mt-1 italic text-Color">
+                      <p className="mt-1 italic text-Color pt-2">
                         {item.description}
                       </p>
                     </div>
@@ -153,19 +153,19 @@ export default function Header() {
           </Popover>
           <Link
             to="/category/4"
-            className="font-sans text-Color hover:text-red-500"
+            className="font-sans text-Color hover:text-[#d8b8f6]"
           >
             Hoa Sinh Nhật
           </Link>
           <Link
             to="/category/5"
-            className="font-sans text-Color hover:text-red-500"
+            className="font-sans text-Color hover:text-[#d8b8f6]"
           >
             Hoa Giá Rẻ
           </Link>
           <Link
             to="/category/9"
-            className="font-sans text-Color hover:text-red-500"
+            className="font-sans text-Color hover:text-[#d8b8f6]"
           >
             Hoa Khai Trương
           </Link>

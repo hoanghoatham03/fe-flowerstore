@@ -142,8 +142,8 @@ const ProductDetailScreen = () => {
           </div>
 
           <div>
-            <p className="font-sans text-xl">Khuyến mãi:</p>
-            <div className="flex flex-row list-none text-[#e91e63] space-x-3 font-semibold font-sans">
+            <p className="font-bold text-xl">Khuyến mãi:</p>
+            <div className="flex flex-row list-none text-[#e91e63] space-x-3 font-bold font-sans">
               <li>
                 <p className="border-dashed border-2 border-[#dc1b57] bg-[#ffe1e1] p-2">
                   Giảm 50K
@@ -162,7 +162,7 @@ const ProductDetailScreen = () => {
             </div>
           </div>
 
-          <p className="font-sans text-xl">
+          <p className="font-bold text-xl">
             Gọi ngay:{" "}
             <span className="text-[#db1b57] bg-[#ffe1e1] text-2xl font-bold px-5 rounded p-3">
               1900 633 045
@@ -180,12 +180,12 @@ const ProductDetailScreen = () => {
             <button
               onClick={handleAddProductClick}
               disabled={isAddingToCart}
-              className="self-start py-3 px-6 bg-blue-500 text-white text-lg font-sans font-semibold rounded-md hover:bg-blue-600 m-5 disabled:opacity-50 flex items-center gap-2"
+              className="self-start py-3 px-6 bg-[#c3e6cb] text-black border-2 border-black text-lg font-bold rounded-md hover:bg-[#d8b8f6] m-5 disabled:opacity-50 flex items-center gap-2"
             >
               {isAddingToCart ? (
                 <>
-                  <ClipLoader size={20} color="#ffffff" />
-                  <span>Đang thêm...</span>
+                  <ClipLoader size={20} color="#33333" />
+                  <span className="font-bold">Đang thêm...</span>
                 </>
               ) : (
                 'Thêm Vào Giỏ'
@@ -201,7 +201,7 @@ const ProductDetailScreen = () => {
       </div>
 
       <div className="mt-10">
-        <h2 className="text-2xl font-bold mb-4">S���n Phẩm Liên Quan</h2>
+        <h2 className="text-2xl font-bold mb-4">Sản Phẩm Liên Quan</h2>
         <div>
           <ProductList categoryId={product.categoryId} />
         </div>

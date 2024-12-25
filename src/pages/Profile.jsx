@@ -179,7 +179,12 @@ const ProfilePage = () => {
   };
 
   if (loading === "loading") {
-    return <Spinner />;
+    window.scrollTo(0, 0);
+    return (
+      <div className="flex justify-center items-center h-[calc(100vh-100px)]">
+        <Spinner />
+      </div>
+    );
   }
 
   if (profileError || error) {
@@ -188,10 +193,10 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <h1 className="text-center text-3xl font-sans p-5">Thông tin cá nhân</h1>
+      <h1 className="text-center text-3xl font-bold p-5">Thông tin cá nhân</h1>
       {profile ? (
         <div className="min-h-screen flex justify-center p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-4xl p-8 w-full h-fit transition-all duration-300 animate-fade-in">
+          <div className="bg-[#c3e6cb] border-2 border-black rounded-xl shadow-2xl max-w-4xl p-8 w-full h-fit transition-all duration-300 animate-fade-in">
             <div className="flex flex-col md:flex-row">
               <div className="md:w-1/3 text-center mb-8 md:mb-0">
                 <img
@@ -207,27 +212,27 @@ const ProfilePage = () => {
                   accept="image/*"
                   onChange={handleImageChange}
                 />
-                <h1 className="text-2xl font-bold text-indigo-800 dark:text-white mb-2">
+                <h1 className="text-2xl font-bold text-Color mb-2">
                   {profile.firstName} {profile.lastName}
                 </h1>
-                <p className="text-gray-600 dark:text-gray-300">Moon Flower</p>
+                <p className="text-Color ">Moon Flower</p>
                 <button
                   onClick={handleEditProfile}
-                  className="mt-4 bg-indigo-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300"
+                  className="mt-4 bg-[#d8b8f6] text-Color px-4 py-2 rounded-lg hover:bg-[#be9fdb] transition-colors duration-300"
                 >
-                  Edit Profile
+                  Chỉnh sửa thông tin
                 </button>
               </div>
 
               <div className="md:w-2/3 md:pl-8">
                 {isEditing ? (
                   <form onSubmit={handleProfileSubmit}>
-                    <h2 className="text-xl font-semibold text-indigo-800 dark:text-white mb-4">
+                    <h2 className="text-xl font-semibold text-Color  mb-4">
                       Chỉnh sửa thông tin tài khoản
                     </h2>
-                    <div className="space-y-4">
+                    <div className="space-y-4 font-bold">
                       <div>
-                        <label className="text-gray-700 dark:text-gray-300">First Name</label>
+                        <label className="text-Color">Họ</label>
                         <input
                           type="text"
                           value={formData.firstName}
@@ -236,7 +241,7 @@ const ProfilePage = () => {
                         />
                       </div>
                       <div>
-                        <label className="text-gray-700 dark:text-gray-300">Last Name</label>
+                        <label className="text-Color">Tên</label>
                         <input
                           type="text"
                           value={formData.lastName}
@@ -245,7 +250,7 @@ const ProfilePage = () => {
                         />
                       </div>
                       <div>
-                        <label className="text-gray-700 dark:text-gray-300">Email</label>
+                        <label className="text-Color">Email</label>
                         <input
                           type="email"
                           value={formData.email}
@@ -254,7 +259,7 @@ const ProfilePage = () => {
                         />
                       </div>
                       <div>
-                        <label className="text-gray-700 dark:text-gray-300">Mobile Number</label>
+                        <label className="text-Color">Số điện thoại</label>
                         <input
                           type="text"
                           value={formData.mobileNumber}
@@ -266,29 +271,29 @@ const ProfilePage = () => {
                     <div className="mt-4 flex justify-end gap-4">
                       <button
                         type="submit"
-                        className="bg-indigo-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300"
+                        className="bg-[#d8b8f6] text-Color px-4 py-2 rounded-lg hover:bg-[#be9fdb] transition-colors duration-300"
                       >
-                        Save Changes
+                       Lưu thay đổi
                       </button>
                       <button
                         type="button"
                         onClick={handleCancelEdit}
-                        className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors duration-300"
+                        className="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-400 transition-colors duration-300"
                       >
-                        Cancel
+                        Hủy 
                       </button>
                     </div>
                   </form>
                 ) : (
                   <>
-                    <h2 className="text-xl font-semibold text-indigo-800 dark:text-white mb-4">
+                    <h2 className="text-xl font-semibold text-Color mb-4">
                       Thông tin tài khoản
                     </h2>
-                    <ul className="space-y-2 text-gray-700 dark:text-gray-300">
+                    <ul className="space-y-2 text-Color">
                       <li className="flex items-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 mr-2 text-indigo-800 dark:text-blue-900"
+                          className="h-5 w-5 mr-2 text-Color"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >
@@ -297,10 +302,10 @@ const ProfilePage = () => {
                         </svg>
                         {profile.email}
                       </li>
-                      <li className="flex items-center">
+                      <li className="flex items-center ">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 mr-2 text-indigo-800 dark:text-blue-900"
+                          className="h-5 w-5 mr-2 text-Color"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >
@@ -309,13 +314,13 @@ const ProfilePage = () => {
                         {profile.mobileNumber}
                       </li>
                     </ul>
-                    <h2 className="text-xl font-semibold text-indigo-800 dark:text-white mb-4">Địa chỉ</h2>
-                    <ul className="space-y-2 text-gray-700 dark:text-gray-300">
+                    <h2 className="text-xl font-semibold text-Color mb-4">Địa chỉ</h2>
+                    <ul className="space-y-2 text-Color">
                         {addresses && addresses.length > 0 ? (
                             addresses.map((address, index) => (
-                            <li key={index} className="flex items-center justify-between">
+                            <li key={index} className="flex items-center justify-between ">
                                 <div className="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-indigo-800 dark:text-blue-900" viewBox="0 0 20 20" fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-Color" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M10 2a8 8 0 00-8 8c0 4.418 8 10 8 10s8-5.582 8-10a8 8 0 00-8-8zm0 12a4 4 0 110-8 4 4 0 010 8z" />
                                 </svg>
                                 {address.street}, {address.district}, {address.city}
@@ -323,30 +328,30 @@ const ProfilePage = () => {
                                 <div className="flex gap-2">
                                 <button
                                     onClick={() => handleEditAddress(address)}
-                                    className="text-indigo-800 hover:text-blue-900"
+                                    className="text-Color hover:text-blue-900"
                                 >
-                                    Edit
+                                    Sửa 
                                 </button>
                                 <button
                                     onClick={() => handleRemoveClick(address)}
                                     className="text-red-600 hover:text-red-800"
                                 >
-                                    Remove
+                                    Xóa 
                                 </button>
                                 </div>
                             </li>
                             ))
                         ) : (
-                            <li className="text-gray-500">Chưa có địa chỉ nào được thêm</li>
+                            <li className="text-Color">Chưa có địa chỉ nào được thêm</li>
                         )}
                         </ul>
 
                     {addresses && (
                       <button
                         onClick={handleCreateAddress}
-                        className="mt-4 bg-indigo-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300"
+                        className="mt-4 bg-[#d8b8f6] text-Color px-4 py-2 rounded-lg hover:bg-[#be9fdb] transition-colors duration-300"
                       >
-                        Create Address
+                        Tạo địa chỉ mới 
                       </button>
                     )}
                   </>
@@ -362,58 +367,58 @@ const ProfilePage = () => {
         <Modal
           onConfirm={handleConfirmRemove}
           onCancel={handleCancelRemove}
-          message="Are you sure you want to delete this address? This action cannot be undone."
+          message="Bạn có chắc chắn muốn xóa địa chỉ này ?"
         />
       )}
       {isEditingAddress && (
-        <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 bg-black z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-8 w-1/2 max-w-xl transition-all duration-300">
+        <div className="absolute inset-0 flex justify-center items-center text-Color bg-opacity-50 bg-black z-50">
+          <div className="bg-[#c3e6cb] rounded-xl shadow-2xl p-8 w-1/2 max-w-xl transition-all duration-300">
             <form onSubmit={handleAddressSubmit}>
-              <h2 className="text-xl font-semibold text-indigo-800 dark:text-white mb-4">
+              <h2 className="text-xl font-semibold mb-4">
                 {selectedAddress ? "Chỉnh sửa địa chỉ" : "Tạo địa chỉ"}
               </h2>
               <div className="space-y-4">
                 <div>
-                  <label className="text-gray-700 dark:text-gray-300">Street</label>
+                  <label className="text-Color">Đường</label>
                   <input
                     type="text"
                     value={addressFormData.street}
                     onChange={(e) => setAddressFormData({ ...addressFormData, street: e.target.value })}
-                    className="w-full p-4 mt-2 border-2 rounded-lg dark:text-gray-200 dark:bg-gray-800"
+                    className="w-full p-4 mt-2 border-2 rounded-lg "
                   />
                 </div>
                 <div>
-                  <label className="text-gray-700 dark:text-gray-300">District</label>
+                  <label className="text-Color">Quận/Huyện</label>
                   <input
                     type="text"
                     value={addressFormData.district}
                     onChange={(e) => setAddressFormData({ ...addressFormData, district: e.target.value })}
-                    className="w-full p-4 mt-2 border-2 rounded-lg dark:text-gray-200 dark:bg-gray-800"
+                    className="w-full p-4 mt-2 border-2 rounded-lg "
                   />
                 </div>
                 <div>
-                  <label className="text-gray-700 dark:text-gray-300">City</label>
+                  <label className="text-Color">Thành phố</label>
                   <input
                     type="text"
                     value={addressFormData.city}
                     onChange={(e) => setAddressFormData({ ...addressFormData, city: e.target.value })}
-                    className="w-full p-4 mt-2 border-2 rounded-lg dark:text-gray-200 dark:bg-gray-800"
+                    className="w-full p-4 mt-2 border-2 rounded-lg "
                   />
                 </div>
               </div>
               <div className="mt-4 flex justify-end gap-4">
                 <button
                   type="submit"
-                  className="bg-indigo-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300"
+                  className="bg-[#d8b8f6] text-Color px-4 py-2 rounded-lg hover:bg-[#be9fdb] transition-colors duration-300"
                 >
-                  Save
+                  Lưu thay đổi
                 </button>
                 <button
                   type="button"
                   onClick={handleCancelAddressEdit}
                   className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors duration-300"
                 >
-                  Cancel
+                  Hủy
                 </button>
               </div>
             </form>

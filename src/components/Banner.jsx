@@ -1,17 +1,23 @@
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from "swiper/modules";
 const Banner = () => {
   return (
     <div className="p-4 md:p-10 m-1 w-full h-auto border object-cover rounded-lg">
       <Swiper
         slidesPerView={1}
         loop={true} 
+        pagination={{
+          clickable: true,
+          dynamicBullets: true,
+        }}
         autoplay={{
-          delay: 3500,
+          delay: 5000,
           disableOnInteraction: false, 
         }}
-        modules={[Autoplay]}
+        modules={[Autoplay,Pagination]}
+        className='custom-swiper'
       >
         <SwiperSlide>
           <img

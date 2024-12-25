@@ -32,7 +32,24 @@
   background-color: #e91e63; 
 }
 
-.arr-custom .swiper-navigation{
-  size:44px;
-  background-color: #ff6347;
+.arr-custom .swiper-button-prev,
+.arr-custom .swiper-button-next {
+  position: absolute;
+  top: 43%; 
+  transform: translateY(-50%); 
+  z-index: 10; 
+  width: 150px;
+  height: 150px;
+  color: #ff6347; 
+  border-radius: 50%; 
+}
+.arr-custom .swiper-button-prev {
+  left: -63px; 
+}
+.arr-custom .swiper-button-next {
+  right: -63px;
+}
+.arr-custom .swiper-button-prev:hover,
+.arr-custom .swiper-button-next:hover{
+ color: #e91e63;
 }
