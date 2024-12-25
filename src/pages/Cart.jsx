@@ -64,12 +64,15 @@ const CartPage = () => {
   const handleDeleteItem = async () => {
     if (itemToDelete) {
       try {
-        console.log("Deleting item:", itemToDelete);
-        await removeCartItem(user.userId, itemToDelete.cartItemId, token);
+        await dispatch(removeCartItem({
+          userId: user.userId,
+          productId: itemToDelete.product.productId,
+          token
+        })).unwrap();
+        
         setUpdatedItems((prevItems) =>
-          prevItems.filter((item) => item.cartItemId !== itemToDelete.cartItemId)
+          prevItems.filter((item) => item.product.productId !== itemToDelete.product.productId)
         );
-        dispatch(fetchCart({ userId: user.userId, token }));
         setShowModal(false);
       } catch (error) {
         console.error("Error deleting item from cart:", error);

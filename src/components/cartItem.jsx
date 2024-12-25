@@ -35,7 +35,12 @@ const CartItem = ({ item, onQuantityChange, onDelete }) => {
         {item.product.realPrice * item.quantity} VND
       </td>
       <td>
-        <button onClick={() => onDelete(item)} className="text-red-600">Delete</button>
+        <button 
+          onClick={() => onDelete(item)} 
+          className="text-red-600 hover:text-red-800"
+        >
+          Delete
+        </button>
       </td>
     </tr>
   );

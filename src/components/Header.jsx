@@ -57,8 +57,8 @@ const callsToAction = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user } = useSelector((state) => state.auth);
-  const { cart } = useSelector((state) => state.cart); 
+  const { user, token } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = async () => {
@@ -68,11 +68,11 @@ export default function Header() {
     window.location.reload();
   };
   const handleCartClick = () => {
-    if (user) {
-      dispatch(fetchCart(user.id));
-      navigate("/cart");  
+    if (user && token) {
+      dispatch(fetchCart({ userId: user.userId, token }));
+      navigate("/cart");
     } else {
-      navigate("/login"); 
+      navigate("/login");
     }
   };
   const handleProfileClick = () => {
@@ -80,10 +80,10 @@ export default function Header() {
   };
 
   useEffect(() => {
-    if (user) {
-      dispatch(fetchCart(user.id));  
+    if (user && token) {
+      dispatch(fetchCart({ userId: user.userId, token }));
     }
-  }, [user, dispatch]);
+  }, [user, token, dispatch]);
 
   return (
     <header className="bg-white sticky top-0 z-50 shadow-md">

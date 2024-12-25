@@ -1,5 +1,27 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { removeFromCart ,getCart, updateCartItem } from "@/api/cart";  
+import { removeFromCart, getCart, updateCartItem } from "@/api/cart";
+
+const initialState = {
+  cart: null,
+  status: 'idle',
+  error: null
+};
+
+export const updateCartItemQuantity = createAsyncThunk(
+  "cart/updateQuantity",
+  async ({ userId, productId, quantity, token }, { rejectWithValue }) => {
+    try {
+      const response = await updateCartItem(userId, productId, quantity, token);
+      return {
+        productId,
+        quantity,
+        ...response.data
+      };
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to update quantity");
+    }
+  }
+);
 
 export const fetchCart = createAsyncThunk(
   "cart/fetchCart",
@@ -8,40 +30,22 @@ export const fetchCart = createAsyncThunk(
       const response = await getCart(userId, token);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data || "Failed to fetch cart");
     }
   }
 );
 
 export const removeCartItem = createAsyncThunk(
-  "cart/removeCartItem",
-  async ({ userId, productId, token }, { rejectWithValue }) => {
+  "cart/removeItem",
+  async ({userId, productId, token}, { rejectWithValue }) => {
     try {
-      const response  = await removeFromCart(userId, productId, token);
-      console.log(response);
-      return response ;
+      await removeFromCart(userId, productId, token);
+      return productId;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Lỗi không xác định");
+      return rejectWithValue(error.response?.data || "Failed to remove item");
     }
   }
 );
-
-export const updateCartItemQuantity = createAsyncThunk(
-  "cart/updateCartItemQuantity",
-  async ({ userId, productId, quantity, token }, { rejectWithValue }) => {
-    try {
-      const updatedCart = await updateCartItem(userId, productId, quantity, token);
-      return updatedCart;
-    } catch (error) {
-      return rejectWithValue(error.response?.data || "Lỗi không xác định");
-    }
-  }
-);
-const initialState = {
-  items: [],
-  status: "idle",
-  error: null,
-};
 
 const cartSlice = createSlice({
   name: "cart",
@@ -55,29 +59,30 @@ const cartSlice = createSlice({
       .addCase(fetchCart.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.cart = action.payload;
-        state.items = action.payload.cartItems;
+        state.error = null;
       })
       .addCase(fetchCart.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })
-      .addCase(updateCartItemQuantity.fulfilled, (state, action) => {
-        state.cart = action.payload;
-        state.items = action.payload.cartItems;
-      })
-      .addCase(updateCartItemQuantity.rejected, (state, action) => {
-        state.error = action.payload;
-      })
-      .addCase(removeCartItem.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(removeCartItem.fulfilled, (state) => {
+      .addCase(removeCartItem.fulfilled, (state, action) => {
         state.status = "succeeded";
-  
+        if (state.cart?.cartItems) {
+          state.cart.cartItems = state.cart.cartItems.filter(
+            item => item.product.productId !== action.payload
+          );
+        }
       })
-      .addCase(removeCartItem.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
+      .addCase(updateCartItemQuantity.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        if (state.cart?.cartItems) {
+          const itemIndex = state.cart.cartItems.findIndex(
+            item => item.productId === action.payload.productId
+          );
+          if (itemIndex !== -1) {
+            state.cart.cartItems[itemIndex].quantity = action.payload.quantity;
+          }
+        }
       });
   }
 });
