@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import { Toaster } from 'react-hot-toast';
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
+import PaymentPage from "./pages/PaymentPage";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: "/order-success",
         element: <OrderSuccess />,
+      },
+      {
+        path: "/payment/:orderId",
+        element: <PaymentPage />,
       },
     ],
   },

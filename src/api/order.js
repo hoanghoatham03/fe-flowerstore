@@ -1,6 +1,7 @@
 import { axiosInstance } from "@/config/axiosConfig";
 
 export async function createOrderWithPaymentIsCash(userId, addressId, paymentId, token) {
+
     const res = await axiosInstance.post(`/users/orders`, {
         userId,
         addressId,
@@ -14,6 +15,7 @@ export async function createOrderWithPaymentIsCash(userId, addressId, paymentId,
 }
 
 export async function createOrderWithPaymentIsBank(userId, addressId, paymentId, token) {
+    console.log("createOrderWithPaymentIsBank", userId, addressId, paymentId, token);
     const res = await axiosInstance.post(`/users/orders/bank`, {
         userId,
         addressId,

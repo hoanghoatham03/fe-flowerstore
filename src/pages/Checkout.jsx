@@ -60,9 +60,14 @@ const Checkout = () => {
         }))
       };
 
-      await createOrderWithPaymentIsCash(user.userId, orderData, token);
-      toast.success('Đặt hàng thành công');
-      navigate('/order-success');
+      if (paymentMethod === PAYMENT_METHODS.CASH) {
+        await createOrderWithPaymentIsCash(user.userId, selectedAddress,1, token);
+        toast.success('Đặt hàng thành công');
+        navigate('/order-success');
+      } else {
+        const response = await createOrderWithPaymentIsBank(user.userId, selectedAddress,2, token);
+        navigate(`/payment/${response.data.orderId}`);
+      }
     } catch (error) {
       toast.error('Đặt hàng thất bại');
     } finally {
@@ -102,7 +107,7 @@ const Checkout = () => {
               >
                 <option value="">Chọn địa chỉ giao hàng</option>
                 {addresses.map((address) => (
-                  <option key={address.id} value={address.id}>
+                  <option key={address.addressId} value={address.addressId}>
                     {address.street}, {address.district}, {address.city}
                   </option>
                 ))}

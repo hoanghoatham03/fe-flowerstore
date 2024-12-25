@@ -4,7 +4,7 @@ import { CheckCircleIcon } from '@heroicons/react/24/outline';
 
 const OrderSuccess = () => {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4">
+    <div className="min-h-[calc(100vh-100px)] bg-gray-100 flex flex-col items-center justify-center px-4">
       <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8 text-center">
         <CheckCircleIcon className="mx-auto h-16 w-16 text-green-500 mb-4" />
         <h1 className="text-2xl font-bold text-gray-900 mb-4">
