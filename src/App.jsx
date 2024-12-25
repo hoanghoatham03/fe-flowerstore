@@ -11,6 +11,8 @@ import "antd/dist/reset.css";
 import Cart from "./pages/Cart";
 import Profile from "./pages/Profile";
 import { Toaster } from 'react-hot-toast';
+import Checkout from "./pages/Checkout";
+import OrderSuccess from "./pages/OrderSuccess";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -46,7 +48,14 @@ const router = createBrowserRouter([
         path: "/profile", 
         element: <Profile />,
       },
-      
+      {
+        path: "/checkout",
+        element: <Checkout />,
+      },
+      {
+        path: "/order-success",
+        element: <OrderSuccess />,
+      },
     ],
   },
 ]);
@@ -55,7 +64,7 @@ function App() {
   return (
     <>
       <Toaster
-        position="top-right"
+        position="top-center"
         toastOptions={{
           duration: 2000,
           style: {

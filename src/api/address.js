@@ -1,5 +1,6 @@
 import { axiosInstance } from "../config/axiosConfig";
 
+//get all address of user
 export async function getAllAddress(userId,token){
     const response = await axiosInstance.get(`/users/${userId}/addresses`, {
         headers: {
@@ -8,6 +9,7 @@ export async function getAllAddress(userId,token){
     });
     return response.data;
 }
+//get address by id
 export async function getAddress(userId,addressId,token){
     const response = await axiosInstance.get(`/users/${userId}/addresses/${addressId}`, {
         headers: {

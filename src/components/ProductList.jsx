@@ -12,7 +12,7 @@ const ProductList = ({ categoryId }) => {
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["products", categoryId],
     queryFn: () =>
-      getProductByCategoryId(categoryId, 1,6).then((res) => res.data),
+      getProductByCategoryId(categoryId, 1,6).then((res) => res.data.products),
     staleTime: 300000,
     cacheTime: 600000,
   });
