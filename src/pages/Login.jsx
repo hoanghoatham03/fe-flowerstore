@@ -19,7 +19,7 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -27,8 +27,10 @@ const Login = () => {
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
+      alert("Login failed: " + (error.message || "Unknown error"));
     }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">

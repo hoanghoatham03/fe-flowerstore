@@ -1,42 +1,47 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { authLogin } from "../api";
+import { authLogin as apiLogin } from "@/api/auth";
 
-
-export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
-  const response = await authLogin(user);
-  return response.data;
+export const login = createAsyncThunk("auth/login", async (formData, { rejectWithValue }) => {
+  try {
+    const data = await apiLogin(formData.email, formData.password);
+    return {
+      user: data.data.user,
+      token: data.data.ACCESS_TOKEN,
+    };
+  } catch (error) {
+    return rejectWithValue(error.response?.data || error.message || "Đăng nhập thất bại!");
+  }
 });
 
 const initialState = {
-  isLoggedIn: false,
+  user: null,
   loading: "idle",
-  error: "",
+  token: null, 
+  error: null,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout: (state) => {
-      state.isLoggedIn = false;
-      state.loading = "idle";
-      state.error = "";
+    logout: () => {
+      return initialState;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
         state.loading = "loading";
-        state.error = "";
+        state.error = null;
       })
-      .addCase(login.fulfilled, (state) => {
-        state.isLoggedIn = true;
+      .addCase(login.fulfilled, (state, action) => {
         state.loading = "idle";
-        state.error = "";
+        state.user = action.payload.user;  
+        state.token = action.payload.token; 
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = "idle";
-        state.error = action.error.message;
+        state.error = action.payload;
       });
   },
 });
