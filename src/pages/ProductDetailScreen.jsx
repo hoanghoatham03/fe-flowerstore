@@ -168,7 +168,7 @@ const ProductDetailScreen = () => {
               1900 633 045
             </span>
           </p>
-          <div>
+          <div className="flex flex-row items-center gap-2">
             <input
               type="number"
               name="quantity"
@@ -201,7 +201,7 @@ const ProductDetailScreen = () => {
       </div>
 
       <div className="mt-10">
-        <h2 className="text-2xl font-bold mb-4">S���n Phẩm Liên Quan</h2>
+        <h2 className="text-2xl font-bold mb-4">Sản phẩm liên quan</h2>
         <div>
           <ProductList categoryId={product.categoryId} />
         </div>
