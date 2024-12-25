@@ -14,7 +14,7 @@ const CartItem = ({ item, onQuantityChange, onDelete, isDeleting }) => {
           <span className="font-semibold">{item.product.productName}</span>
         </div>
       </td>
-      <td className="py-4">{item.product.realPrice} VND</td>
+      <td className="py-4">{item.product.realPrice.toLocaleString()} VND</td>
       <td className="py-4">
         <div className="flex items-center">
           <button 
@@ -33,7 +33,7 @@ const CartItem = ({ item, onQuantityChange, onDelete, isDeleting }) => {
         </div>
       </td>
       <td className="py-4">
-        {item.product.realPrice * item.quantity} VND
+        {(item.product.realPrice * item.quantity).toLocaleString()} VND
       </td>
       <td>
         <button 
@@ -44,7 +44,7 @@ const CartItem = ({ item, onQuantityChange, onDelete, isDeleting }) => {
           {isDeleting ? (
             <ClipLoader size={15} color="#dc2626" />
           ) : (
-            'Delete'
+            'Xóa'
           )}
         </button>
       </td>

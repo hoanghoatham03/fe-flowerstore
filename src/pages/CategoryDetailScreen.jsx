@@ -11,8 +11,8 @@ const CategoryDetailScreen = () => {
     setLoading(true);
     try {
       const response = await getProductByCategoryId(parseInt(id, 10),1,10);
-      setCategoryName(response.data.name);
-      console.log(response)
+      setCategoryName(response.data.products[0].categoryName);
+      console.log("response category name:",response.data)
     } catch (error) {
       console.error("Error fetching category name:", error);
     } finally {

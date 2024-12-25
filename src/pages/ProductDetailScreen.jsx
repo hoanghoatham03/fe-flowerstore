@@ -127,11 +127,11 @@ const ProductDetailScreen = () => {
           </h1>
           <div className="flex items-center border-y-2 border-gray-300 p-3 gap-4 mb-6 text-2xl list-none">
             <li className="text-red-500">
-              {product.price - product.price * (product.discount / 100)} VND
+              {(product.price - product.price * (product.discount / 100)).toLocaleString()} VND
             </li>
             {product.discount > 0 && (
               <li className="text-gray-500 text-xl line-through">
-                {product.price} VND
+                {product.price.toLocaleString()} VND
               </li>
             )}
             {product.discount > 0 && (

@@ -133,17 +133,17 @@ const CartPage = () => {
       <div className="sm:flex shadow-md my-10">
         <div className="w-full sm:w-3/4 bg-white px-8 py-8">
           <div className="flex justify-between border-b pb-6">
-            <h1 className="font-semibold text-xl">Shopping Cart</h1>
+            <h1 className="font-semibold text-xl">Giỏ hàng</h1>
             <h2 className="font-semibold text-xl">{updatedItems.length} Items</h2>
           </div>
 
           <table className="w-full mt-6 table-auto sm:text-sm">
             <thead>
               <tr>
-                <th className="text-left font-semibold py-4">Product</th>
-                <th className="text-left font-semibold py-4">Price</th>
-                <th className="text-left font-semibold py-4">Quantity</th>
-                <th className="text-left font-semibold py-4">Total</th>
+                <th className="text-left font-semibold py-4">Sản phẩm</th>
+                <th className="text-left font-semibold py-4">Giá</th>
+                <th className="text-left font-semibold py-4">Số lượng</th>
+                <th className="text-left font-semibold py-4">Tổng</th>
               </tr>
             </thead>
             <tbody>
@@ -168,47 +168,47 @@ const CartPage = () => {
                 d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971-4.411 40.971-16.971V296z"
               />
             </svg>
-            Continue Shopping
+            Tiếp tục mua sắm
           </Link>
         </div>
 
         <div id="summary" className="w-full sm:w-1/4 md:w-1/2 px-8 py-10">
-          <h1 className="font-semibold text-xl border-b pb-8">Order Summary</h1>
+          <h1 className="font-semibold text-xl border-b pb-8">Tổng hợp đơn hàng</h1>
           <div className="flex justify-between mt-10 mb-5">
-            <span className="font-semibold text-sm uppercase">Items {updatedItems.length}</span>
-            <span className="font-semibold text-sm">{calculateTotalPrice()} VND</span>
+            <span className="font-semibold text-sm uppercase">Sản phẩm {updatedItems.length}</span>
+            <span className="font-semibold text-sm">{calculateTotalPrice().toLocaleString()} VND</span>
           </div>
           <div>
             <label className="font-medium inline-block mb-3 text-sm uppercase">Shipping</label>
             <select className="block p-2 text-gray-600 w-full text-sm">
-              <option>Standard shipping - 10,000 VND</option>
+              <option>Giao hàng tiêu chuẩn - 10,000 VND</option>
             </select>
           </div>
           <div className="py-10">
             <label htmlFor="promo" className="font-semibold inline-block mb-3 text-sm uppercase">
-              Promo Code
+              Mã giảm giá
             </label>
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center gap-2">
               <input
                 type="text"
                 id="promo"
-                placeholder="Enter your code"
+                placeholder="Nhập mã giảm giá"
                 className="p-2 text-sm w-full"
                 value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
             />
               <button 
                 onClick={() => handleApplyPromoCode(promoCode)}
-                className="bg-red-500 hover:bg-red-600 rounded-lg px-5 py-2 text-sm text-white uppercase"
+                className="bg-red-500 hover:bg-red-600 rounded-lg px-5 py-2 text-sm text-white w-24 h-full"
               >
-                Apply
+                <span className="text-white">Áp mã</span>
               </button>
             </div>
           </div>
 
           {discount > 0 && (
             <div className="flex justify-between">
-              <span className="text-red-500">- {discount} VND</span>
+              <span className="text-red-500">- {discount.toLocaleString()} VND</span>
               <button 
                 onClick={() => setDiscount(0)}
                 
@@ -225,14 +225,14 @@ const CartPage = () => {
           
           <div className="border-t mt-8">
             <div className="flex font-semibold justify-between py-6 text-sm uppercase">
-              <span>Total cost</span>
-              <span>{calculateTotalPrice() - discount + 10000} VND</span>
+              <span>Tổng cộng</span>
+              <span>{(calculateTotalPrice() - discount + 10000).toLocaleString()} VND</span>
             </div>
             <button 
               onClick={() => navigate('/checkout')}
               className="bg-indigo-500 font-semibold hover:bg-indigo-600 rounded-lg py-3 text-sm text-white uppercase w-full"
             >
-              Checkout
+              Đặt hàng
             </button>
           </div>
         </div>

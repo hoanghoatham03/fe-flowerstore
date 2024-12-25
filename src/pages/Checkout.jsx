@@ -187,19 +187,19 @@ const Checkout = () => {
               <div className="space-y-2 pt-4">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Tạm tính</span>
-                  <span>{calculateSubtotal()} VND</span>
+                  <span>{calculateSubtotal().toLocaleString()} VND</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Phí vận chuyển</span>
-                  <span>{shippingFee} VND</span>
+                  <span>{shippingFee.toLocaleString()} VND</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Mã giảm giá</span>
-                  <span>- {discount} VND</span>
+                  <span>- {discount.toLocaleString()} VND</span>
                 </div>
                 <div className="flex justify-between font-semibold text-lg pt-4 border-t">
                   <span>Tổng cộng</span>
-                  <span>{calculateTotal()} VND</span>
+                  <span>{calculateTotal().toLocaleString()} VND</span>
                 </div>
               </div>
             </div>
