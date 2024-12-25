@@ -85,6 +85,8 @@ export default function Header() {
     }
   }, [user, token, dispatch]);
 
+  const cartItemCount = cart?.cartItems?.length || 0;
+
   return (
     <header className="bg-white sticky top-0 z-50 shadow-md">
       <nav className="mx-auto flex items-center justify-between p-6 lg:px-8">
@@ -170,17 +172,14 @@ export default function Header() {
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center gap-8">
         {user && (
-          <button
-            onClick={handleCartClick}
-            className="relative group flex items-center text-Color hover:text-red-500"
-          >
+          <Link to="/cart" className="relative">
             <ShoppingCartIcon className="h-6 w-6" />
-            {cart && cart.cartItems && cart.cartItems.length > 0 && (
-              <span className="fixed top-6 right-20 inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-white bg-red-500 rounded-full">
-                {cart.cartItems.length}
+            {cartItemCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                {cartItemCount}
               </span>
             )}
-          </button>
+          </Link>
         )}
 
           {user ? (

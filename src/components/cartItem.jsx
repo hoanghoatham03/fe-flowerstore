@@ -1,6 +1,7 @@
 import React from "react";
+import { ClipLoader } from "react-spinners";
 
-const CartItem = ({ item, onQuantityChange, onDelete }) => {
+const CartItem = ({ item, onQuantityChange, onDelete, isDeleting }) => {
   return (
     <tr key={item.cartItemId}>
       <td className="py-4">
@@ -36,10 +37,15 @@ const CartItem = ({ item, onQuantityChange, onDelete }) => {
       </td>
       <td>
         <button 
-          onClick={() => onDelete(item)} 
-          className="text-red-600 hover:text-red-800"
+          onClick={() => onDelete(item)}
+          disabled={isDeleting} 
+          className="text-red-600 hover:text-red-800 disabled:opacity-50 flex items-center gap-2 min-w-[80px] justify-center"
         >
-          Delete
+          {isDeleting ? (
+            <ClipLoader size={15} color="#dc2626" />
+          ) : (
+            'Delete'
+          )}
         </button>
       </td>
     </tr>

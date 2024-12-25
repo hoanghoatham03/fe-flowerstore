@@ -1,10 +1,12 @@
 import React from 'react';
+import logo from '../assets/logo-shop.png';
+
 const Footer = () => {
   return (
     <footer className="w-full py-14">
     <div className="text-center">
     <a href="#" className="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900">
-        <img src="src/assets/logo-shop.png" className="h-12 mr-3 sm:h-9" alt="MoonFlower Logo" />
+        <img src={logo} className="h-12 mr-3 sm:h-9" alt="MoonFlower Logo" />
         Moon Flower
     </a>
 

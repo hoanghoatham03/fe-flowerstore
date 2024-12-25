@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { removeFromCart, getCart, updateCartItem } from "@/api/cart";
+import { removeFromCart, getCart, updateCartItem, addToCart as addToCartApi } from "@/api/cart";
 
 const initialState = {
   cart: null,
@@ -47,6 +47,18 @@ export const removeCartItem = createAsyncThunk(
   }
 );
 
+export const addToCart = createAsyncThunk(
+  "cart/addItem",
+  async ({ userId, productId, quantity, token }, { rejectWithValue }) => {
+    try {
+      const response = await addToCartApi(userId, productId, quantity, token);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to add item to cart");
+    }
+  }
+);
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -83,6 +95,10 @@ const cartSlice = createSlice({
             state.cart.cartItems[itemIndex].quantity = action.payload.quantity;
           }
         }
+      })
+      .addCase(addToCart.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.cart = action.payload;
       });
   }
 });

@@ -13,6 +13,7 @@ const CartPage = () => {
   const [updatedItems, setUpdatedItems] = useState(cart?.cartItems || []);
   const [showModal, setShowModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
+  const [deletingItemId, setDeletingItemId] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -64,6 +65,8 @@ const CartPage = () => {
   const handleDeleteItem = async () => {
     if (itemToDelete) {
       try {
+        setDeletingItemId(itemToDelete.cartItemId);
+        setShowModal(false);
         await dispatch(removeCartItem({
           userId: user.userId,
           productId: itemToDelete.product.productId,
@@ -73,9 +76,11 @@ const CartPage = () => {
         setUpdatedItems((prevItems) =>
           prevItems.filter((item) => item.product.productId !== itemToDelete.product.productId)
         );
-        setShowModal(false);
+        
       } catch (error) {
         console.error("Error deleting item from cart:", error);
+      } finally {
+        setDeletingItemId(null);
       }
     }
   };
@@ -92,7 +97,12 @@ const CartPage = () => {
   };
 
   if (status === "loading") {
-    return <Spinner/>;
+    window.scrollTo(0, 0);
+    return (
+      <div className="flex justify-center items-center h-[calc(100vh-100px)]">
+        <Spinner />
+      </div>
+    )
   }
 
   if (!Array.isArray(updatedItems) || updatedItems.length === 0) {
@@ -127,6 +137,7 @@ const CartPage = () => {
                     setItemToDelete(item);
                     setShowModal(true);
                   }}
+                  isDeleting={deletingItemId === item.cartItemId}
                 />
               ))}
             </tbody>

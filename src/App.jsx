@@ -10,6 +10,7 @@ import ProductDetailScreen from "./pages/ProductDetailScreen";
 import "antd/dist/reset.css";
 import Cart from "./pages/Cart";
 import Profile from "./pages/Profile";
+import { Toaster } from 'react-hot-toast';
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -52,9 +53,27 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 2000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          success: {
+            duration: 3000,
+            theme: {
+              primary: '#4aed88',
+            },
+          },
+        }}
+      />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </>
   );
 }
 
