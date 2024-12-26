@@ -36,3 +36,8 @@
   size:44px;
   background-color: #ff6347;
 }
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  color: #8b5d61;
+}

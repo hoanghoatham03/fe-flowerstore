@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import ProductList from "@/components/ProductList";
 import React, { useState, useEffect } from "react";
 import { getProductByCategoryId } from "../api/product";
+import Spinner from "@/components/Spinner";
 const CategoryDetailScreen = () => {
   const { id } = useParams();
   const [categoryName, setCategoryName] = useState("");
@@ -21,10 +22,22 @@ const CategoryDetailScreen = () => {
   };
 
   useEffect(() => {
+    
     if (id) {
       loadCategoryName();
     }
+    
   }, [id]);
+
+  if (loading) {
+    window.scrollTo(0, 0);
+    return (
+      <div className="flex justify-center items-center h-[calc(100vh-100px)]">
+        <Spinner />
+      </div>
+    );
+  }
+
 
   return (
     <div className="p-4">
