@@ -57,7 +57,7 @@ const ProfilePage = () => {
           const fetchedAddresses = await getAllAddress(user.userId, token);
           setAddresses(fetchedAddresses.data);
         } catch (err) {
-          setProfileError("Không thể tải thông tin địa chỉ");
+          setProfileError("Không thể tải thông tin địa ch��");
         }
       };
       fetchProfile();
@@ -67,9 +67,54 @@ const ProfilePage = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setSelectedAvatarFile(file);
-      const previewUrl = URL.createObjectURL(file);
-      setImagePreview(previewUrl);
+      
+      if (!file.type.startsWith('image/')) {
+        toast.error('Vui lòng chọn file ảnh');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          const MAX_WIDTH = 800;
+          const MAX_HEIGHT = 800;
+          
+          let width = img.width;
+          let height = img.height;
+          
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          canvas.toBlob((blob) => {
+            const compressedFile = new File([blob], file.name, {
+              type: 'image/jpeg',
+              lastModified: Date.now(),
+            });
+            setSelectedAvatarFile(compressedFile);
+            setImagePreview(URL.createObjectURL(blob));
+          }, 'image/jpeg', 0.7);
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
     }
   };
   const handleRemoveClick = (addresses) => {
@@ -102,37 +147,55 @@ const ProfilePage = () => {
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
     setLoadingProfile(true);
-    const newFormData = new FormData();
-    if (formData.firstName) {
-      newFormData.append("firstName", formData.firstName);
-    }
-    if (formData.lastName) {
-      newFormData.append("lastName", formData.lastName);
-    }
-    if (formData.email) {
-      newFormData.append("email", formData.email);
-    }
-    if (formData.mobileNumber) {
-      newFormData.append("mobileNumber", formData.mobileNumber);
-    }
-
-    if (selectedAvatarFile) {
-      newFormData.append("avatar", selectedAvatarFile);
-    }
-
+    
     try {
-      await updateProfile(user.userId, newFormData, token);
+      const newFormData = new FormData();
+      let hasChanges = false;
+
+      if (formData.firstName?.trim() && formData.firstName.trim() !== profile.firstName?.trim()) {
+        newFormData.append("firstName", formData.firstName.trim());
+        hasChanges = true;
+      }
       
+      if (formData.lastName?.trim() && formData.lastName.trim() !== profile.lastName?.trim()) {
+        newFormData.append("lastName", formData.lastName.trim());
+        hasChanges = true;
+      }
+      
+      if (formData.email?.trim() && formData.email.trim() !== profile.email?.trim()) {
+        newFormData.append("email", formData.email.trim());
+        hasChanges = true;
+      }
+      
+      if (formData.mobileNumber?.trim() && formData.mobileNumber.trim() !== profile.mobileNumber?.trim()) {
+        newFormData.append("mobileNumber", formData.mobileNumber.trim());
+        hasChanges = true;
+      }
+
+      if (selectedAvatarFile) {
+        newFormData.append("avatar", selectedAvatarFile);
+        hasChanges = true;
+      }
+
+      if (!hasChanges) {
+        toast.info('Không có thông tin nào thay đổi');
+        setLoadingProfile(false);
+        setIsEditing(false);
+        return;
+      }
+
+      await updateProfile(user.userId, newFormData, token);
       const updatedProfile = await getProfile(user.userId, token);
       dispatch(setUserProfile(updatedProfile.data));
       
       setSelectedAvatarFile(null);
       setImagePreview(null);
       setIsEditing(false);
-      setLoadingProfile(false);
       toast.success('Cập nhật thông tin thành công');
     } catch (err) {
       toast.error("Không thể cập nhật thông tin");
+    } finally {
+      setLoadingProfile(false);
     }
   };
 
