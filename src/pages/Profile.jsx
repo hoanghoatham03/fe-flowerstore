@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getProfile } from "@/api/profile";
 import { getAllAddress, createAddress, updateAddress ,deleteAddress } from "../api/address"; 
 import { updateProfile } from "@/api/profile"; 
@@ -7,14 +7,18 @@ import Modal from "../components/modal";
 import Spinner from "../components/Spinner";
 import { CameraIcon } from "@heroicons/react/24/outline";
 import { MdEdit } from "react-icons/md";
+import { setUserProfile } from "@/store/reducers/authReducer";
+import { toast } from "react-hot-toast";
 
 const ProfilePage = () => {
+  const dispatch = useDispatch();
   const { user, token, loading, error } = useSelector((state) => state.auth);
   const [profile, setProfile] = useState(null);
   const [addresses, setAddresses] = useState(null);
   const [profileError, setProfileError] = useState(null);
   const [isEditing, setIsEditing] = useState(false); 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loadingProfile, setLoadingProfile] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -28,6 +32,9 @@ const ProfilePage = () => {
     city: ''
   });
   const [selectedAddress, setSelectedAddress] = useState(null); 
+  const [imagePreview, setImagePreview] = useState(null);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const [selectedAvatarFile, setSelectedAvatarFile] = useState(null);
 
   useEffect(() => {
     if (user && token) {
@@ -60,23 +67,9 @@ const ProfilePage = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const formData = new FormData();
-      formData.append('avatar', file);
-      updateProfile(user.userId, formData, token)
-        .then(() => {
-          const fetchProfile = async () => {
-            try {
-              const fetchedProfile = await getProfile(user.userId, token);
-              setProfile(fetchedProfile.data);
-            } catch (err) {
-              setProfileError("Không thể tải thông tin profile");
-            }
-          };
-          fetchProfile();
-        })
-        .catch((err) => {
-          setProfileError("Không thể cập nhật ảnh đại diện");
-        });
+      setSelectedAvatarFile(file);
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreview(previewUrl);
     }
   };
   const handleRemoveClick = (addresses) => {
@@ -108,29 +101,51 @@ const ProfilePage = () => {
 
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
-
+    setLoadingProfile(true);
     const newFormData = new FormData();
-    newFormData.append("firstName", formData.firstName);
-    newFormData.append("lastName", formData.lastName);
-    newFormData.append("email", formData.email);
-    newFormData.append("mobileNumber", formData.mobileNumber);
+    if (formData.firstName) {
+      newFormData.append("firstName", formData.firstName);
+    }
+    if (formData.lastName) {
+      newFormData.append("lastName", formData.lastName);
+    }
+    if (formData.email) {
+      newFormData.append("email", formData.email);
+    }
+    if (formData.mobileNumber) {
+      newFormData.append("mobileNumber", formData.mobileNumber);
+    }
+
+    if (selectedAvatarFile) {
+      newFormData.append("avatar", selectedAvatarFile);
+    }
 
     try {
       await updateProfile(user.userId, newFormData, token);
-      window.location.reload();
+      
+      const updatedProfile = await getProfile(user.userId, token);
+      dispatch(setUserProfile(updatedProfile.data));
+      
+      setSelectedAvatarFile(null);
+      setImagePreview(null);
+      setIsEditing(false);
+      setLoadingProfile(false);
+      toast.success('Cập nhật thông tin thành công');
     } catch (err) {
-      setProfileError("Không thể cập nhật thông tin");
+      toast.error("Không thể cập nhật thông tin");
     }
   };
 
   const handleCancelEdit = () => {
-    setIsEditing(false); 
+    setIsEditing(false);
+    setSelectedAvatarFile(null);
+    setImagePreview(null);
     setFormData({
       firstName: profile.firstName,
       lastName: profile.lastName,
       email: profile.email,
       mobileNumber: profile.mobileNumber,
-    }); 
+    });
   };
 
   const handleEditAddress = (address) => {
@@ -205,13 +220,23 @@ const ProfilePage = () => {
             </button>
           </div>
             <div className="flex flex-col md:flex-row">
-              <div className="md:w-1/3 text-center mb-8 md:mb-0">
-                <img
-                  src={profile.avatar}
-                  alt="Profile Picture"
-                  className="rounded-full w-48 h-48 mx-auto mb-4 border-4 border-[#9C3F46] dark:border-blue-900 transition-transform duration-300 hover:scale-105"
-                  onClick={() => document.getElementById('file-input').click()}
-                />
+              <div className="md:w-1/3 text-center mb-8 md:mb-0 relative">
+                <div className="relative inline-block">
+                  <img
+                    src={imagePreview || profile.avatar}
+                    alt="Profile Picture"
+                    className="rounded-full w-48 h-48 mx-auto mb-4 border-4 border-[#9C3F46] dark:border-blue-900 transition-transform duration-300 hover:scale-105"
+                    onClick={() => document.getElementById('file-input').click()}
+                  />
+                  {isUploadingAvatar && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                    </div>
+                  )}
+                  <div className="absolute bottom-5 right-5 bg-[#9C3F46] rounded-full p-2 cursor-pointer hover:bg-[#b16c72]">
+                    <CameraIcon className="h-6 w-6 text-white" />
+                  </div>
+                </div>
                 <input
                   id="file-input"
                   type="file"
@@ -275,7 +300,7 @@ const ProfilePage = () => {
                         type="submit"
                         className="bg-[#9C3F46] text-white px-4 py-2 rounded-lg hover:bg-[#9C3F46] transition-colors duration-300"
                       >
-                        Lưu
+                        {loadingProfile ? "Đang lưu..." : "Lưu"}
                       </button>
                       <button
                         type="button"
@@ -298,6 +323,7 @@ const ProfilePage = () => {
                           className="h-5 w-5 mr-2 text-[#9C3F46] dark:text-blue-900"
                           viewBox="0 0 20 20"
                           fill="currentColor"
+                          strokeMiterlimit="10"
                         >
                           <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                           <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
@@ -310,6 +336,7 @@ const ProfilePage = () => {
                           className="h-5 w-5 mr-2 text-[#9C3F46] dark:text-blue-900"
                           viewBox="0 0 20 20"
                           fill="currentColor"
+                          strokeMiterlimit="10"
                         >
                           <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                         </svg>
@@ -322,8 +349,14 @@ const ProfilePage = () => {
                             addresses.map((address, index) => (
                             <li key={index} className="flex items-center justify-between">
                                 <div className="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#9C3F46] dark:text-[#9C3F46]" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M10 2a8 8 0 00-8 8c0 4.418 8 10 8 10s8-5.582 8-10a8 8 0 00-8-8zm0 12a4 4 0 110-8 4 4 0 010 8z" />
+                                <svg 
+                                  xmlns="http://www.w3.org/2000/svg" 
+                                  className="h-5 w-5 mr-2 text-[#9C3F46] dark:text-[#9C3F46]" 
+                                  viewBox="0 0 20 20" 
+                                  fill="currentColor"
+                                  strokeMiterlimit="10"
+                                >
+                                  <path d="M10 2a8 8 0 00-8 8c0 4.418 8 10 8 10s8-5.582 8-10a8 8 0 00-8-8zm0 12a4 4 0 110-8 4 4 0 010 8z" />
                                 </svg>
                                 {address.street}, {address.district}, {address.city}
                                 </div>
