@@ -13,6 +13,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [showDirectMap, setShowDirectMap] = useState(false);
   const [showPoster, setShowPoster] = useState(false);
+  const ListCategoryEmpty = [16,17,18,19]
 
   const loadCategories = async () => {
     window.scrollTo(0, 0);
@@ -74,10 +75,12 @@ const HomePage = () => {
           <Spinner/>
         ) : (
           categories.map((category) => (
-            <div key={category.categoryId} className="mb-6 pb-6">
-              <h3 className="text-2xl font-semibold mb-4">{category.categoryName}</h3>
-              <ProductList categoryId={category.categoryId} />
-            </div>
+            ListCategoryEmpty.includes(category.categoryId) ? null : (
+              <div key={category.categoryId} className="mb-6 pb-6">
+                <h3 className="text-2xl font-semibold mb-4">{category.categoryName}</h3>
+                <ProductList categoryId={category.categoryId} />
+              </div>
+            )
           ))
         )}
       </div>
