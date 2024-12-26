@@ -5,6 +5,7 @@ import { login } from "../store/reducers/authReducer";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { authForgotPassword } from "../api/auth";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -109,9 +110,9 @@ const Login = () => {
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Mật khẩu 
                 </label>
-                <a href="#" className="text-xs text-gray-500">
-                  Quên mật khẩu ?
-                </a>
+                <Link to="/forgot-password" className="text-xs text-gray-500 hover:text-[#9C3F46]">
+                  Quên mật khẩu?
+                </Link>
               </div>
               <div className="relative">
                 <input

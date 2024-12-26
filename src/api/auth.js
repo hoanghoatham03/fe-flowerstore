@@ -18,3 +18,19 @@ export const authRegister = async ({ firstName, lastName, mobileNumber, email, p
   });
   return response.data;
 };
+
+export const authForgotPassword = async (email) => {
+  const response = await axiosInstance.post(`/auth/forgot-password`, {
+    email,
+  });
+  return response.data;
+};
+
+export const authResetPassword = async (email, otp, newPassword) => {
+  const response = await axiosInstance.post(`/auth/reset-password`, {
+    email,
+    otp,
+    newPassword,
+  });
+  return response.data;
+};
