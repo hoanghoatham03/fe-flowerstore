@@ -9,6 +9,8 @@ import { CameraIcon } from "@heroicons/react/24/outline";
 import { MdEdit } from "react-icons/md";
 import { setUserProfile } from "@/store/reducers/authReducer";
 import { toast } from "react-hot-toast";
+import { FaRegEdit } from "react-icons/fa";
+import { IoTrashOutline } from "react-icons/io5";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -19,6 +21,7 @@ const ProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loadingProfile, setLoadingProfile] = useState(false);
+  const [loadingAddress, setLoadingAddress] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -122,6 +125,7 @@ const ProfilePage = () => {
     setIsModalOpen(true);
   };
   const handleConfirmRemove = async () => {
+    setLoadingAddress(true);
     try {
       if (!selectedAddress) return;
         
@@ -132,6 +136,9 @@ const ProfilePage = () => {
       setIsModalOpen(false);
     } catch (err) {
       console.error("Error deleting address:", err);
+    } finally {
+      setLoadingAddress(false);
+      toast.success("Xóa địa chỉ thành công");
     }
   };
   
@@ -233,7 +240,7 @@ const ProfilePage = () => {
   };
   const handleAddressSubmit = async (e) => {
     e.preventDefault();
-  
+    setLoadingAddress(true);
     try {
       if (selectedAddress) {
         await updateAddress(user.userId,selectedAddress.addressId, addressFormData, token);
@@ -245,6 +252,13 @@ const ProfilePage = () => {
       setIsEditingAddress(false);
     } catch (err) {
       setProfileError("Không thể tạo hoặc cập nhật địa chỉ");
+    } finally {
+      setLoadingAddress(false);
+      if (selectedAddress) {
+        toast.success("Cập nhật địa chỉ thành công");
+      } else {
+        toast.success("Tạo địa chỉ thành công");
+      }
     }
   };
 
@@ -428,13 +442,13 @@ const ProfilePage = () => {
                                     onClick={() => handleEditAddress(address)}
                                     className="text-[#9C3F46] hover:text-[#9C3F46]"
                                 >
-                                    Chỉnh sửa
+                                    <FaRegEdit className="text-2xl" />
                                 </button>
                                 <button
                                     onClick={() => handleRemoveClick(address)}
                                     className="text-red-600 hover:text-red-800"
                                 >
-                                    Xóa
+                                    <IoTrashOutline className="text-2xl" />
                                 </button>
                                 </div>
                             </li>
@@ -507,7 +521,7 @@ const ProfilePage = () => {
                   type="submit"
                     className="bg-[#9C3F46] text-white px-4 py-2 rounded-lg hover:bg-[#b16c72] transition-colors duration-300"
                 >
-                  Lưu
+                  {loadingAddress ? "Đang lưu..." : "Lưu"}
                 </button>
                 <button
                   type="button"
