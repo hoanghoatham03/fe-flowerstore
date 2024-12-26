@@ -14,6 +14,7 @@ const HomePage = () => {
     const [showDirectMap, setShowDirectMap] = useState(false);
 
     const loadCategories = async () => {
+      window.scrollTo(0, 0);
       setLoading(true);
       try {
         const response = await getCategories(); 
@@ -39,7 +40,7 @@ const HomePage = () => {
             <Spinner/>
           ) : (
             categories.map((category) => (
-              <div key={category.categoryId} className="mb-12">
+              <div key={category.categoryId} className="mb-6 pb-6">
                 <h3 className="text-2xl font-semibold mb-4">{category.categoryName}</h3>
                 <ProductList categoryId={category.categoryId} />
               </div>

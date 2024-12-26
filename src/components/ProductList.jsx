@@ -20,7 +20,7 @@ const ProductList = ({ categoryId }) => {
 
  
   return (
-    <div className="my-8">
+    <div className="my-4">
       {isLoading ? (
         <Spinner />
       ) : (
@@ -46,7 +46,7 @@ const ProductList = ({ categoryId }) => {
             },
           }
         }
-        className="arr-custom"
+        className="arr-custom  !py-4"
         >
           {products.map((product) => (
             <SwiperSlide key={product.productId}

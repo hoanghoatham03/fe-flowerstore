@@ -14,3 +14,9 @@ export const getProductById = async (productId) => {
     const res = await axiosInstance.get(`/products/${productId}`);
     return res.data;
 };
+
+
+export const searchProducts = async (name, pageNo = 1, pageSize = 70) => {
+    const res = await axiosInstance.get(`/products/search?name=${name}&pageNo=${pageNo}&pageSize=${pageSize}`);
+    return res.data;
+};

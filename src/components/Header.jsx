@@ -193,13 +193,27 @@ export default function Header() {
 
         
         <div className="hidden lg:flex items-center justify-center ml-4 w-1/4">
-
-          <div className="flex items-center justify-center border border-gray-300 rounded-3xl p-2">
-            <input type="text" placeholder="Tìm kiếm" className="w-full outline-none" />
-            <button className=" text-white rounded-3xl">
-            <IoSearchOutline className="h-6 w-6 text-Color hover:text-[#9C3F46]" />
-          </button>
-          </div>
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault();
+              const searchQuery = e.target.search.value;
+              if (searchQuery.trim()) {
+                navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                e.target.search.value = '';
+              }
+            }}
+            className="flex items-center justify-center border border-gray-300 rounded-3xl p-2 w-full"
+          >
+            <input 
+              type="text" 
+              name="search"
+              placeholder="Tìm kiếm" 
+              className="w-full outline-none px-2" 
+            />
+            <button type="submit" className="text-white rounded-3xl">
+              <IoSearchOutline className="h-6 w-6 text-Color hover:text-[#9C3F46]" />
+            </button>
+          </form>
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center gap-8">
         {user && (

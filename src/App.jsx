@@ -17,6 +17,7 @@ import PaymentPage from "./pages/PaymentPage";
 import OrderHistory from "./pages/OrderHistory";
 import OrderDetail from "./pages/OrderDetail";
 import Register from "./pages/Register";
+import SearchResults from "./pages/SearchResults";
 
 
 const queryClient = new QueryClient();
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
       {
         path: "/orders/:orderId",
         element: <OrderDetail />,
+      },
+      {
+        path: "/search",
+        element: <SearchResults />,
       },
     ],
   },
