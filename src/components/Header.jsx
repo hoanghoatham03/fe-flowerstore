@@ -22,6 +22,7 @@ import {
   ChevronDownIcon,
   PhoneIcon,
 } from "@heroicons/react/24/outline";
+import { IoSearchOutline } from "react-icons/io5";
 
 const products = [
   {
@@ -170,6 +171,17 @@ export default function Header() {
             Hoa Khai Trương
           </Link>
         </PopoverGroup>
+
+        
+        <div className="hidden lg:flex items-center justify-center ml-4 w-1/4">
+
+          <div className="flex items-center justify-center border border-gray-300 rounded-3xl p-2">
+            <input type="text" placeholder="Tìm kiếm" className="w-full outline-none" />
+            <button className=" text-white rounded-3xl">
+            <IoSearchOutline className="h-6 w-6 text-Color hover:text-red-500" />
+          </button>
+          </div>
+        </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center gap-8">
         {user && (
           <Link to="/cart" className="relative">
@@ -279,6 +291,9 @@ export default function Header() {
                 >
                   Hoa Khai Trương
                 </Link>
+              </div>
+              <div className="flex items-center justify-center">
+                <IoSearchOutline className="h-6 w-6 text-Color hover:text-red-500" />
               </div>
               <div className="py-6">
                 <Link

@@ -3,9 +3,15 @@ import { getCategories } from "@/api/category";
 import ProductList from "../components/ProductList";
 import Banner from "../components/Banner";
 import Spinner from "../components/Spinner";
+import DirectMap from '../components/DirectMap';
+import { FaMapMarkedAlt } from "react-icons/fa";
+import giphy from '../assets/giphy.gif';
+
 const HomePage = () => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showDirectMap, setShowDirectMap] = useState(false);
+
     const loadCategories = async () => {
       setLoading(true);
       try {
@@ -21,6 +27,7 @@ const HomePage = () => {
     useEffect(() => {
       loadCategories();
     }, []);
+
     return (
       <div>
         <Banner />
@@ -38,6 +45,23 @@ const HomePage = () => {
             ))
           )}
         </div>
+
+        <div className=" fixed bottom-10 right-10 z-50">  
+          <img src={giphy} alt="clickme" className="w-10 h-10" />
+        
+        <button
+          onClick={() => setShowDirectMap(true)}
+          className=" bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
+        >
+          <div className="flex items-center ">
+            <FaMapMarkedAlt className="mr-2" />
+            Đến cửa hàng ngay
+          </div>
+        </button>
+        </div>
+        {showDirectMap && (
+          <DirectMap onClose={() => setShowDirectMap(false)} />
+        )}
       </div>
     );
   };
