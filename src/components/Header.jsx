@@ -112,11 +112,11 @@ export default function Header() {
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
 
           <Popover className="relative group">
-            <PopoverButton className="flex items-center gap-x-1 font-sans text-Color group-hover:text-red-500">
+            <PopoverButton className="flex items-center gap-x-1 text-xl font-sans text-Color group-hover:text-[#9C3F46]">
               Lan Hồ Điệp
               <ChevronDownIcon
                 aria-hidden="true"
-                className="h-5 w-5 text-Color group-hover:text-red-500"
+                className="h-5 w-5"
               />
             </PopoverButton>
             <PopoverPanel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
@@ -124,10 +124,10 @@ export default function Header() {
                 {products.map((item) => (
                   <div
                     key={item.name}
-                    className="group relative flex items-center gap-x-6 rounded-lg p-4 hover:bg-gray-50"
+                    className="group relative flex items-center gap-x-6 rounded-lg p-4"
                   >
                     {item.image && (
-                      <div className="flex items-center justify-center w-12 h-12 overflow-hidden rounded-lg bg-gray-50 group-hover:bg-white">
+                      <div className="flex items-center justify-center w-12 h-12 overflow-hidden rounded-lg ">
                         <img
                           src={item.image}
                           alt={item.name}
@@ -135,16 +135,16 @@ export default function Header() {
                         />
                       </div>
                     )}
-                    <div className="flex-auto">
+                    <div className="flex-auto hover:text-[#9C3F46]">
                       <Link
                         to={item.href}
-                        className="block font-semibold text-Color hover:text-red-500"
                       >
-                        {item.name}
-                      </Link>
-                      <p className="mt-1 italic text-Color">
+                        <p className="block font-semibold ">{item.name}</p>
+                        
+                      <p className="mt-1 italic">
                         {item.description}
                       </p>
+                      </Link>
                     </div>
                   </div>
                 ))}
@@ -153,19 +153,19 @@ export default function Header() {
           </Popover>
           <Link
             to="/category/4"
-            className="font-sans text-Color hover:text-red-500"
+            className="font-sans text-xl text-Color hover:text-[#9C3F46]"
           >
             Hoa Sinh Nhật
           </Link>
           <Link
             to="/category/5"
-            className="font-sans text-Color hover:text-red-500"
+            className="font-sans text-xl text-Color hover:text-[#9C3F46]"
           >
             Hoa Giá Rẻ
           </Link>
           <Link
             to="/category/9"
-            className="font-sans text-Color hover:text-red-500"
+            className="font-sans text-xl text-Color hover:text-[#9C3F46]"
           >
             Hoa Khai Trương
           </Link>
@@ -173,7 +173,7 @@ export default function Header() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center gap-8">
         {user && (
           <Link to="/cart" className="relative">
-            <ShoppingCartIcon className="h-6 w-6" />
+            <ShoppingCartIcon className="h-7 w-7" />
             {cartItemCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
                 {cartItemCount}
@@ -184,24 +184,24 @@ export default function Header() {
 
           {user ? (
             <Popover className="relative">
-              <PopoverButton className="flex items-center gap-x-2">
+              <PopoverButton className="flex items-center gap-x-2 pr-5">
                 <img
                   src={user.avatar || "/assets/default-avatar.jpg"}
                   alt="Avatar"
-                  className="h-8 w-8 rounded-full"
+                  className="h-10 w-10 rounded-full"
                 />
               </PopoverButton>
-              <PopoverPanel className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg bg-white ring-1 ring-gray-900/5">
+              <PopoverPanel className="absolute right-0 mt-2 w-48 text-xl text-Color rounded-lg shadow-lg bg-white ring-1 ring-gray-900/5">
                 <div className="p-4">
-                  <button onClick={handleProfileClick} className="block py-2 text-Color hover:text-red-500">
+                  <button onClick={handleProfileClick} className="block py-2 text-Color hover:text-[#9C3F46]">
                     Trang cá nhân
                   </button>
-                  <Link to="/orders" className="block py-2 text-Color hover:text-red-500">
+                  <Link to="/orders" className="block py-2 text-Color hover:text-[#9C3F46]">
                     Đơn hàng
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="w-full text-left py-2 text-Color hover:text-red-500"
+                    className="w-full text-left py-2 text-Color hover:text-[#9C3F46]"
                   >
                     Đăng xuất
                   </button>
@@ -209,7 +209,7 @@ export default function Header() {
               </PopoverPanel>
             </Popover>
           ) : (
-            <Link to="/login" className="font-sans text-Color hover:text-red-500">
+            <Link to="/login" className="font-sans text-Color hover:text-[#9C3F46]">
               Đăng Nhập
             </Link>
           )}
@@ -254,7 +254,7 @@ export default function Header() {
                       <Link
                         key={item.name}
                         to={item.href}
-                        className="block py-2 pl-6 pr-3 text-Color hover:text-red-500"
+                        className="block py-2 pl-6 pr-3 text-Color hover:text-[#9C3F46]"
                       >
                         {item.name}
                       </Link>
@@ -263,30 +263,61 @@ export default function Header() {
                 </Disclosure>
                 <Link
                   to="/category/4"
-                  className="block px-3 py-2 text-base text-Color hover:text-red-500"
+                  className="block px-3 py-2 text-base text-Color hover:text-[#9C3F46]"
                 >
                   Hoa Sinh Nhật
                 </Link>
                 <Link
                   to="/category/5"
-                  className="block px-3 py-2 text-base text-Color hover:text-red-500"
+                  className="block px-3 py-2 text-base text-Color hover:text-[#9C3F46]"
                 >
                   Hoa Giá Rẻ
                 </Link>
                 <Link
                   to="/category/9"
-                  className="block px-3 py-2 text-base text-Color hover:text-red-500"
+                  className="block px-3 py-2 text-base text-Color hover:text-[#9C3F46]"
                 >
                   Hoa Khai Trương
                 </Link>
               </div>
               <div className="py-6">
-                <Link
-                  to="/login"
-                  className="block px-3 py-2.5 text-base text-Color hover:text-red-500"
-                >
-                  Đăng Nhập
-                </Link>
+        {user ? (
+          <>
+            <div className="flex items-center gap-3">
+              <img
+                src={user.avatar || "/assets/default-avatar.jpg"}
+                alt="Avatar"
+                className="h-8 w-8 rounded-full "
+              />
+              <p className="m-auto mx-0 text-base text-Color">{user.firstName} {user.lastName}</p>
+            </div>
+            <Link
+              to="/profile"
+              className="block mt-4 px-3 py-2 text-base text-Color hover:text-[#9C3F46]"
+            >
+              Profile
+            </Link>
+            <Link
+              to="/orders"
+              className="block px-3 py-2 text-base text-Color hover:text-[#9C3F46]"
+            >
+              Đơn hàng
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="w-full text-left px-3 py-2 text-base text-Color hover:text-[#9C3F46]"
+            >
+              Đăng xuất
+            </button>
+                  </>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="block px-3 py-2.5 text-base text-Color hover:text-[#9C3F46]"
+                  >
+                    Đăng Nhập
+                  </Link>
+                )}
               </div>
             </div>
           </div>

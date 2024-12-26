@@ -16,12 +16,19 @@ import OrderSuccess from "./pages/OrderSuccess";
 import PaymentPage from "./pages/PaymentPage";
 import OrderHistory from "./pages/OrderHistory";
 import OrderDetail from "./pages/OrderDetail";
+import Register from "./pages/Register";
+
+
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
   {
     path: "/",
