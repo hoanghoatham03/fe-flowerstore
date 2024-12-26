@@ -2,7 +2,7 @@ import axios from "axios";
 import { WHITE_LIST_ROUTES } from "../utils/appConstant";
 
 export const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: 'https://flowerstoreapi-production.up.railway.app/api',
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
