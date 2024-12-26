@@ -7,6 +7,7 @@ import polyline from '@mapbox/polyline';
 import rightArrow from '../assets/right-arrow.png';
 import { FaLocationArrow, FaSearch } from 'react-icons/fa';
 import DirectMap from './DirectMap';
+import { FaDirections } from "react-icons/fa";
 
 const VEHICLES = {
   car: { label: 'Ô tô', icon: '🚗' },
@@ -109,6 +110,7 @@ const MapDirections = ({ locationType }) => {
   const [directionSteps, setDirectionSteps] = useState([]);
   const [selectedLocationType, setSelectedLocationType] = useState(null);
   const [searchLocation, setSearchLocation] = useState(null);
+  const [showDirection, setShowDirection] = useState(false);
 
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
@@ -398,7 +400,7 @@ const MapDirections = ({ locationType }) => {
 
   return (
     <div className="h-[600px] w-full relative flex">
-      <div className="w-3/4 relative">
+      <div className={`${showDirection ? 'w-3/4' : 'w-full'} relative`}>
         {loading && (
           <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-20">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
@@ -416,7 +418,7 @@ const MapDirections = ({ locationType }) => {
           </button>
         </div>
 
-        <div className="absolute top-4 right-4 z-10 bg-white p-4 rounded-lg shadow-lg">
+        <div className="absolute top-4 right-4 z-10 bg-white p-4 rounded-lg shadow-lg space-y-2">
           <div className="grid grid-cols-2 gap-2">
             {Object.entries(VEHICLES).map(([key, value]) => (
               <button
@@ -431,6 +433,16 @@ const MapDirections = ({ locationType }) => {
               </button>
             ))}
           </div>
+
+          {startLocation && (
+            <button
+              onClick={() => setShowDirection(!showDirection)}
+              className="w-full flex items-center justify-center space-x-2 p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            >
+              <FaDirections className="text-white" />
+              <span>{showDirection ? 'Ẩn chỉ đường' : 'Xem chỉ đường'}</span>
+            </button>
+          )}
         </div>
 
         <div 
@@ -439,14 +451,14 @@ const MapDirections = ({ locationType }) => {
         />
       </div>
 
-      <div className="w-1/4 bg-white p-4 overflow-y-auto">
-        {distance && duration && (
-          <>
-            <div className="mb-4">
-              <h3 className="font-bold text-lg">Tổng quãng đường</h3>
-              <p>Khoảng cách: {distance}</p>
-              <p>Thời gian: {duration}</p>
-            </div>
+      {showDirection && distance && duration && (
+        <div className="w-1/4 bg-white p-4 overflow-y-auto">
+          <div className="mb-4">
+            <h3 className="font-bold text-lg">Tổng quãng đường</h3>
+            <p>Khoảng cách: {distance}</p>
+            <p>Thời gian: {duration}</p>
+          </div>
+          {directionSteps.length > 0 && (
             <div>
               <h3 className="font-bold text-lg mb-2">Chỉ đường chi tiết</h3>
               <div className="space-y-3">
@@ -462,9 +474,9 @@ const MapDirections = ({ locationType }) => {
                 ))}
               </div>
             </div>
-          </>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
