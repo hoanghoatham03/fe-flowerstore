@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../store/reducers/authReducer";
 import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading } = useSelector((state) => state.auth);
-
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -24,11 +26,16 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(login(formData)).unwrap();
-      navigate("/");
+      const result = await dispatch(login(formData)).unwrap();
+      if (result) {
+        toast.success("Đăng nhập thành công");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      }
     } catch (error) {
       console.error("Login failed:", error);
-      alert("Login failed: " + (error.message || "Unknown error"));
+      toast.error( "Tài khoản hoặc mật khẩu không đúng");
     }
   };
 
@@ -106,29 +113,38 @@ const Login = () => {
                   Quên mật khẩu ?
                 </a>
               </div>
-              <input
-                type="password"
-                name="password"
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
                 value={formData.password}
                 onChange={handleChange}
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 required
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
             </div>
             <div className="mt-8">
               <button
                 type="submit"
-                disabled={loading === "loading"}
-                 className="group relative w-full flex justify-center py-2 px-4 border text-xs border-transparent rounded-md text-white bg-[#9C3F46] hover:bg-[#9C7376] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:bg-[#9C8486]"
+                disabled={loading}
+                className="group relative w-full flex justify-center py-2 px-4 border text-xs font-bold border-transparent rounded-md text-white bg-[#9C3F46] hover:bg-[#9C7376] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:bg-[#9C8486]"
               >
-                {loading === "loading" ? "Đang đăng nhập..." : "Đăng nhập"}
+                {loading ? "Đang đăng nhập..." : "Đăng nhập"}
               </button>
             </div>
           </form>
           <div className="mt-4 flex items-center justify-between">
             <span className="border-b w-1/5 md:w-1/4"></span>
             <Link to="/register" className="text-xs text-gray-500 uppercase">
-              Hoặc đăng ký
+              Chưa có tài khoản? Đăng ký
             </Link>
             <span className="border-b w-1/5 md:w-1/4"></span>
           </div>

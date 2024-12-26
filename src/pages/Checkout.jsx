@@ -149,7 +149,7 @@ const Checkout = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 disabled:opacity-50"
+              className="w-full bg-[#9C3F46] text-white py-3 px-4 rounded-lg hover:bg-[#b16c72] disabled:opacity-50"
             >
               {isSubmitting ? (
                 <div className="flex items-center justify-center">
@@ -178,7 +178,7 @@ const Checkout = () => {
                     <h3 className="font-medium">{item.product.productName}</h3>
                     <p className="text-gray-500">Số lượng: {item.quantity}</p>
                     <p className="text-gray-900 font-medium">
-                      {item.product.realPrice * item.quantity} VND
+                      {(item.product.realPrice * item.quantity).toLocaleString()} VND
                     </p>
                   </div>
                 </div>

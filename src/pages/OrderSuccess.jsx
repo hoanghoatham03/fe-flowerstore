@@ -16,7 +16,7 @@ const OrderSuccess = () => {
         <div className="space-y-4">
           <Link
             to="/orders"
-            className="block w-full bg-indigo-600 text-white rounded-md px-4 py-2 hover:bg-indigo-700 transition-colors"
+            className="block w-full bg-[#9C3F46] text-white rounded-md px-4 py-2 hover:bg-[#b16c72] transition-colors"
           >
             Xem đơn hàng
           </Link>

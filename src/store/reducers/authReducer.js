@@ -32,7 +32,7 @@ export const register = createAsyncThunk("auth/register", async (formData, { rej
 
 const initialState = {
   user: null,
-  loading: "idle",
+  loading: false,
   token: null, 
   error: null,
 };
@@ -48,29 +48,29 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
-        state.loading = "loading";
+        state.loading = true;
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.loading = "idle";
+        state.loading = false;
         state.user = action.payload.user;  
         state.token = action.payload.token; 
       })
       .addCase(login.rejected, (state, action) => {
-        state.loading = "idle";
+        state.loading = false;
         state.error = action.payload;
       })
       .addCase(register.pending, (state) => {
-        state.loading = "loading";
+        state.loading = true;
         state.error = null;
       })
       .addCase(register.fulfilled, (state, action) => {
-        state.loading = "idle";
+        state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
       })
       .addCase(register.rejected, (state, action) => {
-        state.loading = "idle";
+        state.loading = false;
         state.error = action.payload;
       });
   },

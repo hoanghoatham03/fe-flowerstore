@@ -2,8 +2,8 @@ export const BASE_URL = import.meta.env.VITE_BASE_URL;
 export const WHITE_LIST_ROUTES = ["/login", "/register"];
 
 export const APP_COLORS = {
-  primary: "156, 63, 70",
-  secondary: "253 253 253",
+  primary: "#9C3F46",
+  secondary: "#b16c72",
 };
 
 export const LOCATION_SHOP = {

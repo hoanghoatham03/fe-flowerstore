@@ -81,7 +81,7 @@ const ProductList = ({ categoryId }) => {
                   )}
                 </div>
                 <div className="flex justify-center mt-4">
-                  <button className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                  <button className="py-2 px-4 bg-[#9C3F46] text-white rounded-md hover:bg-[#b16c72]">
                     Đặt ngay
                   </button>
                 </div>

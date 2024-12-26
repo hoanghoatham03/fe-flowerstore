@@ -180,7 +180,7 @@ const ProductDetailScreen = () => {
             <button
               onClick={handleAddProductClick}
               disabled={isAddingToCart}
-              className="self-start py-3 px-6 bg-blue-500 text-white text-lg font-sans font-semibold rounded-md hover:bg-blue-600 m-5 disabled:opacity-50 flex items-center gap-2"
+              className="self-start py-3 px-6 bg-[#9C3F46] text-white text-lg font-sans font-semibold rounded-md hover:bg-[#b16c72] m-5 disabled:opacity-50 flex items-center gap-2"
             >
               {isAddingToCart ? (
                 <>
@@ -195,7 +195,9 @@ const ProductDetailScreen = () => {
         </div>
       </div>
 
-      <div className="mt-10">
+    
+
+      <div className="mt-10 border-y-2 border-gray-300 p-5">
         <h2 className="text-2xl font-bold mb-4">Mô tả sản phẩm</h2>
         <p className="w-full flex text-lg text-gray-700">{product.description}</p>
       </div>

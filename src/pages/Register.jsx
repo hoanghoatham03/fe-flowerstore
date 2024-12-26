@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { register } from "../store/reducers/authReducer"; // Adjust the import path as necessary
 import { Link } from "react-router-dom";
-
+import { toast } from "react-hot-toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading } = useSelector((state) => state.auth);
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -28,15 +30,17 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert("Mật khẩu không khớp");
+      toast.error("Mật khẩu không khớp");
       return;
     }
     try {
-      await dispatch(register(formData)).unwrap();
-      navigate("/login");
+      const result = await dispatch(register(formData)).unwrap();
+      if (result) {
+        navigate("/login");
+      }
     } catch (error) {
       console.error("Registration failed:", error);
-      alert("Registration failed: " + (error.message || "Unknown error"));
+      toast.error("Đăng ký thất bại");
     }
   };
 
@@ -113,36 +117,54 @@ const Register = () => {
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Mật khẩu 
                 </label>
+                <div className="relative">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
                   className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+                </div>
               </div>
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Xác nhận mật khẩu
                 </label>
+                <div className="relative">
                 <input
-                  type="password"
+                  type={showConfirmPassword ? "text" : "password"}
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
               </div>
             </div>
             <div className="mt-8">
               <button
                 type="submit"
-                disabled={loading === "loading"}
-                className="group relative w-full flex justify-center py-2 px-4 border text-xs border-transparent rounded-md text-white bg-[#9C3F46] hover:bg-[#9C7376] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:bg-[#9C8486]"
+                disabled={loading}
+                className="group relative w-full flex justify-center py-2 px-4 border text-xs font-bold border-transparent rounded-md text-white bg-[#9C3F46] hover:bg-[#9C7376] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:bg-[#9C8486]"
               >
-                {loading === "loading" ? "Đang đăng ký..." : "Đăng ký"}
+                {loading ? "Đang đăng ký..." : "Đăng ký"}
               </button>
             </div>
           </form>

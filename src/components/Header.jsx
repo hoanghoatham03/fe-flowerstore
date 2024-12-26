@@ -3,6 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchCart } from "../store/reducers/cartReducer";
 import { logout } from "../store/reducers/authReducer";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { FaSignOutAlt, FaUserCircle } from "react-icons/fa";
+import { IoIosListBox } from "react-icons/io";
+
 import {
   Dialog,
   DialogPanel,
@@ -60,13 +64,21 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, token } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
+  const [loadingLogout, setLoadingLogout] = useState(false);
+
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = async () => {
+    setLoadingLogout(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
     dispatch(logout());
-    navigate("/");
-    window.location.reload();
+    setLoadingLogout(false);
+    toast.success("Đăng xuất thành công");
+    setTimeout(() => {
+      navigate("/");
+      window.location.reload();
+    }, 1000);
   };
   const handleCartClick = () => {
     if (user && token) {
@@ -76,9 +88,12 @@ export default function Header() {
       navigate("/login");
     }
   };
-  const handleProfileClick = () => {
-    navigate(`/profile`);  
+
+  const handleTurnOffPopover = () => {
+    document.getElementById('popover-avatar-button').click();
+    window.scrollTo(0, 0);
   };
+ 
 
   useEffect(() => {
     if (user && token) {
@@ -97,7 +112,7 @@ export default function Header() {
             <img
               alt="Logo"
               src="/src/assets/logo-shop.png"
-              className="h-12 w-auto"
+              className="h-16 w-auto"
             />
           </Link>
         </div>
@@ -113,7 +128,7 @@ export default function Header() {
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
 
           <Popover className="relative group">
-            <PopoverButton className="flex items-center gap-x-1 text-xl font-sans text-Color group-hover:text-[#9C3F46]">
+            <PopoverButton className="flex items-center gap-x-1 text-xl font-sans outline-none text-Color group-hover:text-[#9C3F46]" id="popover-lanhodiep-button">
               Lan Hồ Điệp
               <ChevronDownIcon
                 aria-hidden="true"
@@ -137,8 +152,12 @@ export default function Header() {
                       </div>
                     )}
                     <div className="flex-auto hover:text-[#9C3F46]">
-                      <Link
+                      <Link 
                         to={item.href}
+                        onClick={()=>{
+                          document.getElementById('popover-lanhodiep-button').click();
+                          window.scrollTo(0, 0);
+                        }}
                       >
                         <p className="block font-semibold ">{item.name}</p>
                         
@@ -178,7 +197,7 @@ export default function Header() {
           <div className="flex items-center justify-center border border-gray-300 rounded-3xl p-2">
             <input type="text" placeholder="Tìm kiếm" className="w-full outline-none" />
             <button className=" text-white rounded-3xl">
-            <IoSearchOutline className="h-6 w-6 text-Color hover:text-red-500" />
+            <IoSearchOutline className="h-6 w-6 text-Color hover:text-[#9C3F46]" />
           </button>
           </div>
         </div>
@@ -196,33 +215,50 @@ export default function Header() {
 
           {user ? (
             <Popover className="relative">
-              <PopoverButton className="flex items-center gap-x-2 pr-5">
+              <PopoverButton className="flex items-center gap-x-2 pr-5 outline-none" id="popover-avatar-button">
                 <img
                   src={user.avatar || "/assets/default-avatar.jpg"}
                   alt="Avatar"
                   className="h-10 w-10 rounded-full"
                 />
               </PopoverButton>
-              <PopoverPanel className="absolute right-0 mt-2 w-48 text-xl text-Color rounded-lg shadow-lg bg-white ring-1 ring-gray-900/5">
+              <PopoverPanel className="absolute right-6 mt-3 w-48 text-base text-Color rounded-lg shadow-lg bg-white ring-1 ring-gray-900/5 ">
                 <div className="p-4">
-                  <button onClick={handleProfileClick} className="block py-2 text-Color hover:text-[#9C3F46]">
-                    Trang cá nhân
-                  </button>
-                  <Link to="/orders" className="block py-2 text-Color hover:text-[#9C3F46]">
-                    Đơn hàng
+                  <Link to="/profile" className="block py-2 text-Color hover:text-[#9C3F46]" onClick={handleTurnOffPopover}>
+                    <div className="flex items-center justify-start gap-2 ">
+                      <FaUserCircle className="h-6 w-6" />
+                      <span className="text-base">Trang cá nhân</span>
+                    </div>
+                  </Link>
+                  <Link to="/orders" className="block py-2 text-Color hover:text-[#9C3F46]" onClick={handleTurnOffPopover}>
+                    <div className="flex items-center justify-start gap-2">
+                      <IoIosListBox className="h-6 w-6" />
+                      <span className="text-base">Đơn hàng</span>
+                    </div>
                   </Link>
                   <button
                     onClick={handleLogout}
                     className="w-full text-left py-2 text-Color hover:text-[#9C3F46]"
                   >
-                    Đăng xuất
+                    
+                    <div className="flex items-center justify-start gap-2">
+                      <FaSignOutAlt className="h-6 w-6" />
+                      {loadingLogout ? (
+                        <span className="text-base">Đang đăng xuất...</span>
+                      ) : (
+                        <span className="text-base">Đăng xuất</span>
+                      )}
+                    </div>
                   </button>
                 </div>
               </PopoverPanel>
             </Popover>
           ) : (
             <Link to="/login" className="font-sans text-Color hover:text-[#9C3F46]">
-              Đăng Nhập
+              <div className="flex items-center justify-start gap-2">
+                <FaUserCircle className="h-6 w-6" />
+                <span className="text-base">Đăng Nhập</span>
+              </div>
             </Link>
           )}
         </div>

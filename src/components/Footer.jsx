@@ -86,7 +86,7 @@ const Footer = () => {
                 />
                 <button
                   type="submit"
-                  className="border border-black flex gap-2 justify-center items-center py-3.5 px-7 rounded-full text-white bg-indigo-600 shadow-md w-fit transition-all duration-500 mx-auto xl:mx-0 hover:bg-indigo-800"
+                  className="border border-black flex gap-2 justify-center items-center py-3.5 px-7 rounded-full text-white bg-[#9C3F46] shadow-md w-fit transition-all duration-500 mx-auto xl:mx-0 hover:bg-[#b16c72]"
                 >
                   Đăng ký
                   <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -106,7 +106,7 @@ const Footer = () => {
             <div className="flex items-center justify-center">
               <span className="text-sm text-gray-800">
                 Copyright © 2024 All Right Reserved by{" "}
-                <a href="" className="text-indigo-600">
+                <a href="" className="text-[#9C3F46]">
                   Moon Flower
                 </a>
               </span>

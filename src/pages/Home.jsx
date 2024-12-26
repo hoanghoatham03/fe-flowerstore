@@ -6,6 +6,7 @@ import Spinner from "../components/Spinner";
 import DirectMap from '../components/DirectMap';
 import { FaMapMarkedAlt } from "react-icons/fa";
 import giphy from '../assets/giphy.gif';
+import { APP_COLORS } from "@/utils/appConstant";
 
 const HomePage = () => {
     const [categories, setCategories] = useState([]);
@@ -51,7 +52,7 @@ const HomePage = () => {
         
         <button
           onClick={() => setShowDirectMap(true)}
-          className=" bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
+          className=" bg-[#9C3F46] text-white px-4 py-2 rounded-lg hover:bg-[#b16c72]"
         >
           <div className="flex items-center ">
             <FaMapMarkedAlt className="mr-2" />

@@ -6,6 +6,8 @@ import { updateProfile } from "@/api/profile";
 import Modal from "../components/modal";
 import Spinner from "../components/Spinner";
 import { CameraIcon } from "@heroicons/react/24/outline";
+import { MdEdit } from "react-icons/md";
+
 const ProfilePage = () => {
   const { user, token, loading, error } = useSelector((state) => state.auth);
   const [profile, setProfile] = useState(null);
@@ -178,8 +180,12 @@ const ProfilePage = () => {
     setSelectedAddress(null);
   };
 
-  if (loading === "loading") {
-    return <Spinner />;
+  if (loading || !profile) {
+    return(
+      <div className="flex justify-center items-center h-[calc(100vh-100px)]">
+        <Spinner />
+      </div>
+    );
   }
 
   if (profileError || error) {
@@ -188,16 +194,22 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <h1 className="text-center text-3xl font-sans p-5">Thông tin cá nhân</h1>
-      {profile ? (
+      <h1 className="text-center text-3xl font-sans pt-5">Thông tin cá nhân</h1>
+        
         <div className="min-h-screen flex justify-center p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-4xl p-8 w-full h-fit transition-all duration-300 animate-fade-in">
+          
+          <div className="bg-white dark:bg-gray-800 rounded-xl relative shadow-2xl max-w-4xl p-8 w-full h-fit transition-all duration-300 animate-fade-in">
+          <div className="absolute top-10 right-10 z-20">  
+            <button onClick={handleEditProfile}>
+              <MdEdit className="text-[#9C3F46] text-4xl" />
+            </button>
+          </div>
             <div className="flex flex-col md:flex-row">
               <div className="md:w-1/3 text-center mb-8 md:mb-0">
                 <img
                   src={profile.avatar}
                   alt="Profile Picture"
-                  className="rounded-full w-48 h-48 mx-auto mb-4 border-4 border-indigo-800 dark:border-blue-900 transition-transform duration-300 hover:scale-105"
+                  className="rounded-full w-48 h-48 mx-auto mb-4 border-4 border-[#9C3F46] dark:border-blue-900 transition-transform duration-300 hover:scale-105"
                   onClick={() => document.getElementById('file-input').click()}
                 />
                 <input
@@ -207,22 +219,17 @@ const ProfilePage = () => {
                   accept="image/*"
                   onChange={handleImageChange}
                 />
-                <h1 className="text-2xl font-bold text-indigo-800 dark:text-white mb-2">
+                <h1 className="text-2xl font-bold text-[#9C3F46] dark:text-white mb-2">
                   {profile.firstName} {profile.lastName}
                 </h1>
                 <p className="text-gray-600 dark:text-gray-300">Moon Flower</p>
-                <button
-                  onClick={handleEditProfile}
-                  className="mt-4 bg-indigo-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300"
-                >
-                  Chỉnh sửa thông tin
-                </button>
+
               </div>
 
               <div className="md:w-2/3 md:pl-8">
                 {isEditing ? (
                   <form onSubmit={handleProfileSubmit}>
-                    <h2 className="text-xl font-semibold text-indigo-800 dark:text-white mb-4">
+                    <h2 className="text-xl font-semibold text-[#9C3F46] dark:text-white mb-4">
                       Chỉnh sửa thông tin tài khoản
                     </h2>
                     <div className="space-y-4">
@@ -266,7 +273,7 @@ const ProfilePage = () => {
                     <div className="mt-4 flex justify-end gap-4">
                       <button
                         type="submit"
-                        className="bg-indigo-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300"
+                        className="bg-[#9C3F46] text-white px-4 py-2 rounded-lg hover:bg-[#9C3F46] transition-colors duration-300"
                       >
                         Lưu
                       </button>
@@ -281,14 +288,14 @@ const ProfilePage = () => {
                   </form>
                 ) : (
                   <>
-                    <h2 className="text-xl font-semibold text-indigo-800 dark:text-white mb-4">
+                    <h2 className="text-xl font-semibold text-[#9C3F46] dark:text-white mb-4">
                       Thông tin tài khoản
                     </h2>
                     <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                       <li className="flex items-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 mr-2 text-indigo-800 dark:text-blue-900"
+                          className="h-5 w-5 mr-2 text-[#9C3F46] dark:text-blue-900"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >
@@ -300,7 +307,7 @@ const ProfilePage = () => {
                       <li className="flex items-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 mr-2 text-indigo-800 dark:text-blue-900"
+                          className="h-5 w-5 mr-2 text-[#9C3F46] dark:text-blue-900"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >
@@ -309,13 +316,13 @@ const ProfilePage = () => {
                         {profile.mobileNumber}
                       </li>
                     </ul>
-                    <h2 className="text-xl font-semibold text-indigo-800 dark:text-white mb-4">Địa chỉ</h2>
+                    <h2 className="text-xl font-semibold text-[#9C3F46] dark:text-white mb-4">Địa chỉ</h2>
                     <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                         {addresses && addresses.length > 0 ? (
                             addresses.map((address, index) => (
                             <li key={index} className="flex items-center justify-between">
                                 <div className="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-indigo-800 dark:text-blue-900" viewBox="0 0 20 20" fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#9C3F46] dark:text-[#9C3F46]" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M10 2a8 8 0 00-8 8c0 4.418 8 10 8 10s8-5.582 8-10a8 8 0 00-8-8zm0 12a4 4 0 110-8 4 4 0 010 8z" />
                                 </svg>
                                 {address.street}, {address.district}, {address.city}
@@ -323,7 +330,7 @@ const ProfilePage = () => {
                                 <div className="flex gap-2">
                                 <button
                                     onClick={() => handleEditAddress(address)}
-                                    className="text-indigo-800 hover:text-blue-900"
+                                    className="text-[#9C3F46] hover:text-[#9C3F46]"
                                 >
                                     Chỉnh sửa
                                 </button>
@@ -344,7 +351,7 @@ const ProfilePage = () => {
                     {addresses && (
                       <button
                         onClick={handleCreateAddress}
-                        className="mt-4 bg-indigo-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300"
+                        className="mt-4 bg-[#9C3F46] text-white px-4 py-2 rounded-lg hover:bg-[#b16c72] transition-colors duration-300"
                       >
                         Thêm địa chỉ
                       </button>
@@ -355,9 +362,7 @@ const ProfilePage = () => {
             </div>
           </div>
         </div>
-      ) : (
-        <Spinner />
-      )}
+      
       {isModalOpen && (
         <Modal
           onConfirm={handleConfirmRemove}
@@ -369,7 +374,7 @@ const ProfilePage = () => {
         <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 bg-black z-50">
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-8 w-1/2 max-w-xl transition-all duration-300">
             <form onSubmit={handleAddressSubmit}>
-              <h2 className="text-xl font-semibold text-indigo-800 dark:text-white mb-4">
+              <h2 className="text-xl font-semibold text-[#9C3F46] dark:text-white mb-4">
                 {selectedAddress ? "Chỉnh sửa địa chỉ" : "Tạo địa chỉ"}
               </h2>
               <div className="space-y-4">
@@ -404,7 +409,7 @@ const ProfilePage = () => {
               <div className="mt-4 flex justify-end gap-4">
                 <button
                   type="submit"
-                  className="bg-indigo-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors duration-300"
+                    className="bg-[#9C3F46] text-white px-4 py-2 rounded-lg hover:bg-[#b16c72] transition-colors duration-300"
                 >
                   Lưu
                 </button>
